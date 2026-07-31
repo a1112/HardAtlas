@@ -62,6 +62,7 @@ jobs:
 
       - name: Run full verification stack
         run: |
+          set -o pipefail
           bash scripts/verify-stack.sh | tee output/verify-stack.log
 
       - name: Upload verification log
