@@ -61,4 +61,23 @@ jobs:
         run: corepack pnpm exec playwright install --with-deps
 
       - name: Run full verification stack
-        run: bash scripts/verify-stack.sh
+        run: |
+          bash scripts/verify-stack.sh | tee output/verify-stack.log
+
+      - name: Upload verification log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hardatlas-verify-log
+          path: output/verify-stack.log
+          retention-days: 14
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hardatlas-playwright-report
+          path: |
+            output/playwright/report
+            output/playwright/test-results
+          retention-days: 14
