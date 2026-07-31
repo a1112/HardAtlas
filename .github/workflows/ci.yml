@@ -73,10 +73,39 @@ jobs:
         run: corepack pnpm exec playwright install --with-deps
 
       - name: Run full verification stack
+        id: verify-stack
         run: |
           mkdir -p output/playwright/report output/playwright/test-results
+          set +e
           set -o pipefail
           bash scripts/verify-stack.sh | tee output/verify-stack.log
+          status=${PIPESTATUS[0]}
+          echo "status=$status" >> "$GITHUB_OUTPUT"
+          if [ "$status" -ne 0 ]; then
+            exit $status
+          fi
+
+      - name: Emit verification summary
+        if: always()
+        run: |
+          {
+            echo "# Verify Stack Summary"
+            echo ""
+            echo "- Workflow: ${GITHUB_WORKFLOW}"
+            echo "- Ref: ${GITHUB_REF_NAME}"
+            echo "- Commit: ${GITHUB_SHA}"
+            echo "- Verification status: ${{ steps.verify-stack.outputs.status == '0' && 'pass' || 'fail' }}"
+            echo ""
+            echo "## Tail output"
+            echo ""
+            if [ -f output/verify-stack.log ]; then
+              echo '```'
+              tail -n 60 output/verify-stack.log
+              echo '```'
+            else
+              echo "(verify-stack.log unavailable)"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload verification log
         if: always()
