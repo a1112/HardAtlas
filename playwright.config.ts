@@ -34,7 +34,7 @@ export default defineConfig({
   webServer: [
     {
       command:
-        "bash -lc 'mkdir -p .local && uv run alembic -c packages/py/data/alembic.ini upgrade head && uv run uvicorn hardatlas_api.app:app --host 127.0.0.1 --port 8000'",
+        "bash -lc 'mkdir -p .local && rm -f .local/hardatlas-e2e.db && uv run alembic -c packages/py/data/alembic.ini upgrade head && uv run uvicorn hardatlas_api.app:app --host 127.0.0.1 --port 8000'",
       env: {
         HARDATLAS_DATABASE_URL:
           process.env.HARDATLAS_DATABASE_URL ??
