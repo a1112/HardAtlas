@@ -7,6 +7,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  checks: write
+
 concurrency:
   group: hardatlas-verify-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -114,6 +118,7 @@ jobs:
           name: hardatlas-verify-log
           path: output/verify-stack.log
           retention-days: 14
+          if-no-files-found: warn
 
       - name: Upload Playwright report
         if: always()
@@ -124,3 +129,4 @@ jobs:
             output/playwright/report
             output/playwright/test-results
           retention-days: 14
+          if-no-files-found: warn
