@@ -1,0 +1,11 @@
+{
+  "id": "attr-sea-depth",
+  "key": "max_depth_meters",
+  "name": [{ "locale": "zh-CN", "value": "最大深度（米）" }],
+  "dataType": "measurement",
+  "cardinality": "one",
+  "required": true,
+  "unitFamily": "distance",
+  "validation": { "min": 0 },
+  "schemaVersion": "schema-1.0.0"
+}

@@ -1,0 +1,14 @@
+{
+  "id": "oceanography",
+  "name": "海洋与水圈百科",
+  "version": "1.0.0",
+  "kernelVersion": "2.0",
+  "locales": ["zh-CN", "en"],
+  "spaceFiles": ["spaces/oceanography.json"],
+  "taxonomyNodeFiles": ["taxonomy/marine-objects.json", "taxonomy/deep-sea.json"],
+  "entityTypeFiles": ["entity-types/sea-feature.json"],
+  "attributeFiles": ["attributes/depth-meters.json"],
+  "relationshipTypeFiles": ["relationship-types/in-depth-of.json"],
+  "viewFiles": ["views/sea-feature-detail.json"],
+  "qualityProfileFiles": ["quality/sea-feature.json"]
+}

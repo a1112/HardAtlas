@@ -1,0 +1,17 @@
+{
+  "id": "type-mathematics",
+  "spaceId": "space-mathematics",
+  "key": "mathematics",
+  "name": [
+    { "locale": "zh-CN", "value": "数学条目" },
+    { "locale": "en", "value": "Mathematics Entries" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "数学对象、证明与模型的条目类型" }
+  ],
+  "allowedTaxonomyNodeIds": ["tax-mathematics"],
+  "attributeDefinitionIds": [],
+  "allowedRelationshipTypeIds": [],
+  "defaultViewDefinitionId": "view-mathematics",
+  "schemaVersion": "schema-2.1.0"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "quality-celestial-body",
+  "entityTypeId": "type-celestial-body",
+  "schemaVersion": "1.0.0",
+  "requiredLocales": ["zh-CN", "en"],
+  "requiredAttributeIds": ["attr-discovery-year"],
+  "minimumCitations": 1,
+  "minimumSections": 1,
+  "freshnessDays": 3650,
+  "healthyScore": 88,
+  "criticalScore": 52
+}

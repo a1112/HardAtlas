@@ -1,0 +1,9 @@
+{
+  "id": "space-oceanography",
+  "slug": "oceanography",
+  "name": [{ "locale": "zh-CN", "value": "海洋与水圈" }],
+  "description": [{ "locale": "zh-CN", "value": "海洋地貌、深海地形与相关观测实体" }],
+  "rootTaxonomyNodeIds": ["tax-marine-objects"],
+  "iconKey": "earth",
+  "status": "published"
+}

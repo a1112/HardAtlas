@@ -1,0 +1,14 @@
+{
+  "id": "astronomy",
+  "name": "天文与空间百科",
+  "version": "1.0.0",
+  "kernelVersion": "2.0",
+  "locales": ["zh-CN", "en"],
+  "spaceFiles": ["spaces/astronomy.json"],
+  "taxonomyNodeFiles": ["taxonomy/astronomy.json", "taxonomy/stars.json", "taxonomy/planets.json"],
+  "entityTypeFiles": ["entity-types/celestial-body.json"],
+  "attributeFiles": ["attributes/discovery-year.json"],
+  "relationshipTypeFiles": ["relationship-types/discovered-by.json"],
+  "viewFiles": ["views/celestial-body-detail.json"],
+  "qualityProfileFiles": ["quality/celestial-body.json"]
+}

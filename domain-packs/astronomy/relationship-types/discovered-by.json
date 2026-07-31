@@ -1,0 +1,14 @@
+{
+  "id": "rel-discovered-by",
+  "key": "discovered_by",
+  "name": [{ "locale": "zh-CN", "value": "发现者" }],
+  "inverseName": [{ "locale": "zh-CN", "value": "被发现于" }],
+  "directed": true,
+  "sourceEntityTypeIds": ["type-celestial-body"],
+  "targetEntityTypeIds": [],
+  "sourceCardinality": "many",
+  "targetCardinality": "many",
+  "qualifierSchema": { "project": { "type": "string" } },
+  "evidenceRequired": true,
+  "schemaVersion": "relations-astronomy-1.0.0"
+}

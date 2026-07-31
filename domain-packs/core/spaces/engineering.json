@@ -1,0 +1,18 @@
+{
+  "id": "space-engineering",
+  "slug": "engineering",
+  "name": [
+    { "locale": "zh-CN", "value": "工程技术" },
+    { "locale": "en", "value": "Engineering and Technology" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "电子、材料、机械、计算与制造" },
+    {
+      "locale": "en",
+      "value": "Electronics, materials, mechanics, computing, and manufacturing"
+    }
+  ],
+  "rootTaxonomyNodeIds": ["tax-electronics"],
+  "iconKey": "engineering",
+  "status": "published"
+}

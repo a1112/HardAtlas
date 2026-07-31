@@ -1,0 +1,14 @@
+{
+  "id": "rel-taxonomic-parent",
+  "key": "taxonomic_parent",
+  "name": [{ "locale": "zh-CN", "value": "分类上级" }],
+  "inverseName": [{ "locale": "zh-CN", "value": "包含分类" }],
+  "directed": true,
+  "sourceEntityTypeIds": ["type-animal", "type-plant"],
+  "targetEntityTypeIds": [],
+  "sourceCardinality": "one",
+  "targetCardinality": "many",
+  "qualifierSchema": { "rank": { "type": "string" } },
+  "evidenceRequired": true,
+  "schemaVersion": "relations-life-1.0.0"
+}

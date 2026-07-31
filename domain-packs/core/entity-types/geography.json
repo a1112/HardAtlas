@@ -1,0 +1,17 @@
+{
+  "id": "type-geography",
+  "spaceId": "space-earth",
+  "key": "geography",
+  "name": [
+    { "locale": "zh-CN", "value": "地理地貌" },
+    { "locale": "en", "value": "Geography" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "地理格局、地貌单元与环境关系" }
+  ],
+  "allowedTaxonomyNodeIds": ["tax-geography"],
+  "attributeDefinitionIds": [],
+  "allowedRelationshipTypeIds": [],
+  "defaultViewDefinitionId": "view-geography",
+  "schemaVersion": "schema-2.1.0"
+}

@@ -1,0 +1,18 @@
+{
+  "id": "agent-source-acquisition-router",
+  "version": "1.0.0",
+  "name": "来源采集路由执行器",
+  "role": "acquisition",
+  "handlerKey": "external-maintenance",
+  "description": "按版本化来源范围与政策领取来源采集 Work Item；不创建百科内容。",
+  "capabilities": [
+    "source-registry-read",
+    "source-acquisition-request",
+    "evidence-create"
+  ],
+  "allowedProposalTypes": [],
+  "maximumRisk": "low",
+  "modelPolicy": "deterministic",
+  "inputContract": { "type": "object" },
+  "outputContract": { "type": "object" }
+}

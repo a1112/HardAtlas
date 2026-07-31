@@ -1,0 +1,28 @@
+{
+  "id": "agent-source-monitor",
+  "version": "1.1.0",
+  "name": "来源变化监控",
+  "role": "source-monitor",
+  "handlerKey": "source-monitor",
+  "description": "比较受治理来源快照，仅传递发生变化且策略允许的输入。",
+  "capabilities": ["source-policy-read", "snapshot-diff"],
+  "allowedProposalTypes": [],
+  "maximumRisk": "low",
+  "modelPolicy": "deterministic",
+  "inputContract": {
+    "type": "object",
+    "properties": {
+      "sourceId": { "type": "string", "minLength": 1 },
+      "snapshotHash": { "type": "string", "minLength": 1 }
+    },
+    "required": ["sourceId", "snapshotHash"]
+  },
+  "outputContract": {
+    "type": "object",
+    "properties": {
+      "sourceId": { "type": "string", "minLength": 1 },
+      "snapshotHash": { "type": "string", "minLength": 1 }
+    },
+    "required": ["sourceId", "snapshotHash"]
+  }
+}

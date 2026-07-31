@@ -1,0 +1,13 @@
+{
+  "id": "tax-electronics",
+  "spaceId": "space-engineering",
+  "slug": "electronic-components",
+  "name": [
+    { "locale": "zh-CN", "value": "电子元件" },
+    { "locale": "en", "value": "Electronic components" }
+  ],
+  "parentIds": [],
+  "childCount": 18,
+  "entityCount": 126540,
+  "pathKeys": ["engineering", "electronic-components"]
+}

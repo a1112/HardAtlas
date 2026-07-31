@@ -1,0 +1,14 @@
+{
+  "id": "rel-in-depth-of",
+  "key": "in-depth-of",
+  "name": [{ "locale": "zh-CN", "value": "位于深海地形中" }],
+  "inverseName": [{ "locale": "zh-CN", "value": "覆盖海洋对象" }],
+  "directed": true,
+  "sourceEntityTypeIds": ["type-sea-feature"],
+  "targetEntityTypeIds": ["type-sea-feature"],
+  "sourceCardinality": "many",
+  "targetCardinality": "many",
+  "qualifierSchema": { "region": { "type": "string" } },
+  "evidenceRequired": false,
+  "schemaVersion": "relations-oceanography-1.0.0"
+}

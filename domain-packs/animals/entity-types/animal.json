@@ -1,0 +1,21 @@
+{
+  "id": "type-animal",
+  "spaceId": "space-life",
+  "key": "animal",
+  "name": [
+    { "locale": "zh-CN", "value": "动物" },
+    { "locale": "en", "value": "Animal" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "动物分类、形态、分布、生态与保护信息" },
+    {
+      "locale": "en",
+      "value": "Animal taxonomy, morphology, distribution, ecology, and conservation"
+    }
+  ],
+  "allowedTaxonomyNodeIds": ["tax-animals"],
+  "attributeDefinitionIds": ["attr-scientific-name", "attr-conservation"],
+  "allowedRelationshipTypeIds": ["rel-taxonomic-parent", "rel-distributed-in"],
+  "defaultViewDefinitionId": "view-animal",
+  "schemaVersion": "schema-2.2.0"
+}

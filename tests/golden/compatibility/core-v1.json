@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "fixture-2026.07.28",
+  "ruleVersion": "rules-2026.07",
+  "cases": [
+    {
+      "id": "explicit-compatible",
+      "facts": { "socket_match": true, "power": { "available_watts": 1000 } },
+      "expected": "compatible"
+    },
+    {
+      "id": "bios-conditional",
+      "facts": { "socket_match": true, "bios": { "version": "1.0" } },
+      "expected": "conditional"
+    },
+    {
+      "id": "electrical-counterexample",
+      "facts": { "socket_match": true, "power": { "available_watts": 500 } },
+      "expected": "incompatible"
+    },
+    {
+      "id": "missing-critical-data",
+      "facts": {},
+      "expected": "unknown"
+    },
+    {
+      "id": "conflicting-sources",
+      "facts": { "source_conflict": true },
+      "expected": "unknown"
+    },
+    {
+      "id": "performance-degradation",
+      "facts": { "pcie": { "required": 5, "available": 4 } },
+      "expected": "conditional"
+    },
+    {
+      "id": "physical-counterexample",
+      "facts": { "clearance": { "required_mm": 360, "available_mm": 320 } },
+      "expected": "incompatible"
+    },
+    {
+      "id": "rule-version-replay",
+      "facts": { "socket_match": true },
+      "expected": "compatible",
+      "replayWithRuleVersion": "rules-2026.07"
+    }
+  ]
+}

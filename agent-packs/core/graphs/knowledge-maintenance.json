@@ -1,0 +1,46 @@
+{
+  "id": "knowledge-maintenance",
+  "version": "graph-2.3.0",
+  "name": "通用知识维护图",
+  "description": "来源变化、结构抽取、实体消歧和证据核验组成的可恢复治理流水线。",
+  "domainPackIds": ["animals", "plants", "electronics"],
+  "triggerTypes": ["manual", "source-change", "schedule", "schema-change"],
+  "budget": {
+    "maxAttemptsPerNode": 3,
+    "maxTotalAttempts": 12,
+    "maxModelCalls": 4,
+    "maxInputTokens": 120000,
+    "maxOutputTokens": 20000,
+    "maxCostMicrousd": 2000000,
+    "deadlineSeconds": 600
+  },
+  "nodes": [
+    {
+      "id": "monitor",
+      "agentId": "agent-source-monitor",
+      "agentVersion": "1.1.0",
+      "maxAttempts": 2
+    },
+    {
+      "id": "extract",
+      "agentId": "agent-content-extractor",
+      "agentVersion": "1.3.0",
+      "dependsOn": ["monitor"],
+      "maxAttempts": 3
+    },
+    {
+      "id": "resolve",
+      "agentId": "agent-entity-resolver",
+      "agentVersion": "1.2.0",
+      "dependsOn": ["extract"],
+      "maxAttempts": 3
+    },
+    {
+      "id": "verify",
+      "agentId": "agent-evidence-verifier",
+      "agentVersion": "1.1.0",
+      "dependsOn": ["resolve"],
+      "maxAttempts": 2
+    }
+  ]
+}

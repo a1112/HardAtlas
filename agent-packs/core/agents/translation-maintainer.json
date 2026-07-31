@@ -1,0 +1,14 @@
+{
+  "id": "agent-translation-maintainer",
+  "version": "1.0.0",
+  "name": "证据化翻译维护 Agent",
+  "role": "translation",
+  "handlerKey": "external-maintenance",
+  "description": "领取缺失语言 Work Item，只提交引用固定修订证据的中风险翻译提案。",
+  "capabilities": ["entity-read", "translation-propose", "evidence-create"],
+  "allowedProposalTypes": ["translation"],
+  "maximumRisk": "medium",
+  "modelPolicy": "optional-model",
+  "inputContract": { "type": "object" },
+  "outputContract": { "type": "object" }
+}

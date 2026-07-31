@@ -1,0 +1,10 @@
+{
+  "id": "tax-marine-objects",
+  "spaceId": "space-oceanography",
+  "slug": "marine-objects",
+  "name": [{ "locale": "zh-CN", "value": "海洋对象" }],
+  "parentIds": [],
+  "childCount": 2,
+  "entityCount": 1,
+  "pathKeys": ["oceanography", "marine-objects"]
+}

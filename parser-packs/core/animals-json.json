@@ -1,0 +1,29 @@
+{
+  "id": "parser-animals-json",
+  "version": "1.0.0",
+  "format": "json",
+  "mediaTypes": ["application/json"],
+  "entityTypeId": "type-animal",
+  "locale": "zh-CN",
+  "recordsPath": "/items",
+  "externalIdPath": "id",
+  "entityIdPath": "entityId",
+  "labelPath": "name",
+  "fieldMappings": [
+    {
+      "sourcePath": "scientificName",
+      "targetPath": "/claims/scientific-name",
+      "attributeDefinitionId": "attr-scientific-name",
+      "confidence": 0.85,
+      "required": false
+    },
+    {
+      "sourcePath": "description",
+      "targetPath": "/description/0/value",
+      "locale": "zh-CN",
+      "confidence": 0.75,
+      "required": false
+    }
+  ],
+  "maxRecords": 10000
+}

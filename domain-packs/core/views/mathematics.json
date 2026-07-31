@@ -1,0 +1,22 @@
+{
+  "id": "view-mathematics",
+  "entityTypeId": "type-mathematics",
+  "schemaVersion": "schema-2.0.1",
+  "blocks": [
+    { "id": "hero", "type": "hero", "config": {} },
+    { "id": "summary", "type": "summary", "config": {} },
+    {
+      "id": "classification",
+      "type": "classification",
+      "title": [{ "locale": "zh-CN", "value": "数学维度" }],
+      "config": {
+        "rows": [
+          ["对象", "定义"],
+          ["价值", "建模"],
+          ["应用", "工程"]
+        ]
+      }
+    },
+    { "id": "citations", "type": "citations", "config": {} }
+  ]
+}

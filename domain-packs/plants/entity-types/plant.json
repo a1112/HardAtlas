@@ -1,0 +1,21 @@
+{
+  "id": "type-plant",
+  "spaceId": "space-life",
+  "key": "plant",
+  "name": [
+    { "locale": "zh-CN", "value": "植物" },
+    { "locale": "en", "value": "Plant" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "植物分类、形态、分布、生态与用途" },
+    {
+      "locale": "en",
+      "value": "Plant taxonomy, morphology, distribution, ecology, and uses"
+    }
+  ],
+  "allowedTaxonomyNodeIds": ["tax-plants"],
+  "attributeDefinitionIds": ["attr-scientific-name"],
+  "allowedRelationshipTypeIds": ["rel-taxonomic-parent", "rel-distributed-in"],
+  "defaultViewDefinitionId": "view-plant",
+  "schemaVersion": "schema-2.2.0"
+}

@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Atlas 主窗口的最小本地权限。","local":true,"windows":["main"],"permissions":["core:default"]}}

@@ -1,0 +1,13 @@
+{
+  "id": "tax-geology",
+  "spaceId": "space-earth",
+  "slug": "geology",
+  "name": [
+    { "locale": "zh-CN", "value": "地质" },
+    { "locale": "en", "value": "Geology" }
+  ],
+  "parentIds": [],
+  "childCount": 7,
+  "entityCount": 48200,
+  "pathKeys": ["earth", "geology"]
+}

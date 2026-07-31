@@ -1,0 +1,28 @@
+{
+  "id": "agent-evidence-verifier",
+  "version": "1.1.0",
+  "name": "证据与政策核验",
+  "role": "evidence-verification",
+  "handlerKey": "evidence-verification",
+  "description": "核对快照哈希、引用、置信度与政策，输出受治理提案标识。",
+  "capabilities": ["citation-read", "source-policy-read", "proposal-create"],
+  "allowedProposalTypes": ["content", "relation", "translation"],
+  "maximumRisk": "critical",
+  "modelPolicy": "deterministic",
+  "inputContract": {
+    "type": "object",
+    "properties": {
+      "snapshotHash": { "type": "string", "minLength": 1 },
+      "citationId": { "type": "string", "minLength": 1 }
+    },
+    "required": ["snapshotHash", "citationId"]
+  },
+  "outputContract": {
+    "type": "object",
+    "properties": {
+      "evidenceVerified": { "const": true },
+      "proposalId": { "type": "string", "minLength": 1 }
+    },
+    "required": ["evidenceVerified", "proposalId"]
+  }
+}

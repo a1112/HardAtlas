@@ -1,0 +1,18 @@
+{
+  "id": "view-celestial-body",
+  "entityTypeId": "type-celestial-body",
+  "schemaVersion": "schema-2.0.1",
+  "blocks": [
+    { "id": "hero", "type": "hero", "config": {} },
+    { "id": "summary", "type": "summary", "config": {} },
+    {
+      "id": "classification",
+      "type": "classification",
+      "config": { "depth": 6 }
+    },
+    { "id": "attributes", "type": "attribute-table", "config": {} },
+    { "id": "timeline", "type": "timeline", "config": {} },
+    { "id": "relations", "type": "relationship-list", "config": {} },
+    { "id": "citations", "type": "citations", "config": {} }
+  ]
+}

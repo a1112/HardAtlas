@@ -1,0 +1,12 @@
+{
+  "id": "type-sea-feature",
+  "spaceId": "space-oceanography",
+  "key": "sea-feature",
+  "name": [{ "locale": "zh-CN", "value": "海洋对象" }],
+  "description": [{ "locale": "zh-CN", "value": "可被检索和引用的海洋地形与观测对象" }],
+  "allowedTaxonomyNodeIds": ["tax-marine-objects", "tax-deep-sea"],
+  "attributeDefinitionIds": ["attr-sea-depth"],
+  "allowedRelationshipTypeIds": ["rel-in-depth-of"],
+  "defaultViewDefinitionId": "view-sea-feature-detail",
+  "schemaVersion": "schema-1.0.0"
+}

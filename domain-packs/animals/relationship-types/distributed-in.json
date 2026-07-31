@@ -1,0 +1,16 @@
+{
+  "id": "rel-distributed-in",
+  "key": "distributed_in",
+  "name": [{ "locale": "zh-CN", "value": "分布于" }],
+  "inverseName": [{ "locale": "zh-CN", "value": "物种分布" }],
+  "directed": true,
+  "sourceEntityTypeIds": ["type-animal", "type-plant"],
+  "targetEntityTypeIds": [],
+  "sourceCardinality": "many",
+  "targetCardinality": "many",
+  "qualifierSchema": {
+    "status": { "type": "string", "enum": ["native", "introduced", "historic"] }
+  },
+  "evidenceRequired": true,
+  "schemaVersion": "relations-life-1.0.0"
+}

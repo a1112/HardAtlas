@@ -1,0 +1,13 @@
+{
+  "id": "tax-geography",
+  "spaceId": "space-earth",
+  "slug": "geography",
+  "name": [
+    { "locale": "zh-CN", "value": "地理" },
+    { "locale": "en", "value": "Geography" }
+  ],
+  "parentIds": [],
+  "childCount": 12,
+  "entityCount": 120100,
+  "pathKeys": ["earth", "geography"]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "view-electronic-component",
+  "entityTypeId": "type-electronic-component",
+  "schemaVersion": "schema-2.0.2",
+  "blocks": [
+    { "id": "hero", "type": "hero", "config": { "showIdentifiers": true } },
+    { "id": "summary", "type": "summary", "config": {} },
+    {
+      "id": "attributes",
+      "type": "attribute-table",
+      "config": { "group": "electrical" }
+    },
+    {
+      "id": "relations",
+      "type": "relationship-list",
+      "config": { "groupByType": true }
+    },
+    { "id": "citations", "type": "citations", "config": {} }
+  ]
+}

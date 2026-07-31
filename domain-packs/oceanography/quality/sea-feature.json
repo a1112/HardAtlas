@@ -1,0 +1,12 @@
+{
+  "id": "quality-sea-feature",
+  "entityTypeId": "type-sea-feature",
+  "schemaVersion": "1.0.0",
+  "requiredLocales": ["zh-CN", "en"],
+  "requiredAttributeIds": ["attr-sea-depth"],
+  "minimumCitations": 1,
+  "minimumSections": 1,
+  "freshnessDays": 365,
+  "healthyScore": 80,
+  "criticalScore": 45
+}

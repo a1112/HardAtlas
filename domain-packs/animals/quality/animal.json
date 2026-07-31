@@ -1,0 +1,12 @@
+{
+  "id": "quality-animal",
+  "entityTypeId": "type-animal",
+  "schemaVersion": "1.0.0",
+  "requiredLocales": ["zh-CN", "en"],
+  "requiredAttributeIds": ["attr-scientific-name", "attr-conservation"],
+  "minimumCitations": 2,
+  "minimumSections": 2,
+  "freshnessDays": 180,
+  "healthyScore": 90,
+  "criticalScore": 50
+}

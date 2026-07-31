@@ -1,0 +1,14 @@
+{
+  "id": "rel-variant-of",
+  "key": "variant_of",
+  "name": [{ "locale": "zh-CN", "value": "变体属于" }],
+  "inverseName": [{ "locale": "zh-CN", "value": "具有变体" }],
+  "directed": true,
+  "sourceEntityTypeIds": ["type-electronic-component"],
+  "targetEntityTypeIds": ["type-electronic-component"],
+  "sourceCardinality": "one",
+  "targetCardinality": "many",
+  "qualifierSchema": { "manufacturer": { "type": "string" } },
+  "evidenceRequired": true,
+  "schemaVersion": "relations-electronics-1.0.0"
+}

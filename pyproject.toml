@@ -1,0 +1,52 @@
+[project]
+name = "hardatlas-workspace"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "httpx>=0.28.1",
+  "hypothesis>=6.138.0",
+  "pytest>=8.4.1",
+  "pytest-asyncio>=1.1.0",
+  "ruff>=0.12.9",
+]
+
+[tool.uv.workspace]
+members = [
+  "apps/api",
+  "apps/worker",
+  "packages/py/domain",
+  "packages/py/data",
+  "packages/py/rules",
+  "packages/py/ingestion",
+  "packages/py/ai",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = [
+  "apps/api/tests",
+  "apps/worker/tests",
+  "packages/py/ai/tests",
+  "packages/py/domain/tests",
+  "packages/py/data/tests",
+  "packages/py/ingestion/tests",
+  "packages/py/rules/tests",
+]
+pythonpath = [
+  "apps/api/src",
+  "apps/worker/src",
+  "packages/py/ai/src",
+  "packages/py/domain/src",
+  "packages/py/data/src",
+  "packages/py/rules/src",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

@@ -1,0 +1,10 @@
+{
+  "id": "tax-astronomy",
+  "spaceId": "space-astronomy",
+  "slug": "astronomy",
+  "name": [{ "locale": "zh-CN", "value": "天文与空间" }],
+  "parentIds": [],
+  "childCount": 2,
+  "entityCount": 0,
+  "pathKeys": ["天文与空间"]
+}

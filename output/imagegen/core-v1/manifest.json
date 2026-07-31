@@ -1,0 +1,85 @@
+{
+  "generatedAt": "2026-07-31T08:16:56.724Z",
+  "generationConfig": {
+    "model": "gpt-image-2",
+    "size": "3840x2160",
+    "concurrency": 2,
+    "maxAttempts": 3,
+    "noAugment": true
+  },
+  "count": 8,
+  "items": [
+    {
+      "out": "01-search-taxonomy-home.png",
+      "sha256": "bca57fe383f935f09d13f21fc772ac66a8e7b1b7c12d7e3d57171a65f2ae647e",
+      "sizeBytes": 516564,
+      "width": 3840,
+      "height": 2160,
+      "prompt": "Use case: ui-mockup. Asset type: high-fidelity desktop web homepage for Atlas, a professional universal encyclopedia. Create a straight-on 16:9 Chinese interface, not a marketing landing page and not a hardware dashboard. Header with compact ATLAS scholarly wordmark, navigation 探索, 分类, 专题, 关于, language selector and 进入工作台. Main focus is a large centered search field with exact placeholder 搜索条目、别名、学名、型号或提出一个问题; heading 探索世界的每一种知识; restrained subtitle about expert and Agent maintenance. Below, six professional taxonomy cards: 生命科学, 地球与环境, 工程技术, 人文与历史, 数学与基础科学, 医学与健康, each showing concise subcategories and entry count. Lower section 今日精选条目 with 雪豹, 银杏, NE555 定时器 and visible source counts. Scholarly editorial interface, warm off-white paper canvas, deep forest green, charcoal text, muted category accents, Noto Serif SC headings plus Noto Sans SC UI, exact grid and fine rules. Show data version and source transparency subtly. No hardware-monitor widgets, no sci-fi AI visuals, no gradients, no glassmorphism, no generic stock photos, no watermark, no garbled Chinese.",
+      "promptHash": "1ee652b284dc01d3bb0bd9cf0aad3f095f62b4d9a34be4e5da95012d31527c69"
+    },
+    {
+      "out": "02-search-results-disambiguation.png",
+      "sha256": "237c0b920760b3045338a4fb00aaf08be9d759b6456f7f326612cf32176c63f7",
+      "sizeBytes": 118838,
+      "width": 3840,
+      "height": 2160,
+      "prompt": "Use case: ui-mockup. Asset type: professional universal encyclopedia search results and entity disambiguation screen. Straight-on 16:9 Chinese web interface in Atlas visual system: warm paper-white, forest green, charcoal, scholarly serif headings, precise sans-serif controls. Search query in top field 苹果. Left filter rail with 知识领域, 条目类型, 语言, 来源完整度, 更新时间. Main results clearly disambiguate 苹果（植物果实）, 苹果属（植物分类）, 苹果公司（组织）, Apple A17 Pro（电子元件）, each with type, taxonomy path, short definition, aliases, thumbnail placeholder, citation count and last reviewed date. Right knowledge context panel titled 可能指向 showing relation hints and exact prompt 请选择你要查找的概念. Include result count, lexical match explanation, and a toggle 仅显示已审核条目. Professional information retrieval interface, high density but calm. No advertising, no e-commerce, no chat bubbles, no hardware dashboard, no watermark, no malformed Chinese.",
+      "promptHash": "c8a00d4c452b900d49c681a9f66e7c3c5342ac1ce83ecc1ce94c6b1bd10929a7"
+    },
+    {
+      "out": "03-entity-snow-leopard.png",
+      "sha256": "7f17026f42eb4839ab46ad3ecf59b7ca96d73ae931eb0dc429fd7d6dd3673ad0",
+      "sizeBytes": 156660,
+      "width": 3840,
+      "height": 2160,
+      "prompt": "Use case: ui-mockup. Asset type: authoritative Atlas encyclopedia entry page for 雪豹. Straight-on 16:9 Chinese web screenshot. Header search and breadcrumbs 生命科学 / 动物 / 脊索动物门 / 哺乳纲. Article hero: 雪豹, italic Panthera uncia, aliases, status 已审核, revision and data version. Balanced three-column scholarly layout: slim article contents rail; central narrative with 概述, 形态特征, 分布与栖息地 and a precise distribution map; right fact panel with scientific classification 界门纲目科属种, conservation status, body length, elevation range. Every important claim has small numbered citation markers. Bottom visible 来源与证据 cards with source tier, retrieved date, coverage, and 版本历史. Include relation links 猫科, 豹属, 青藏高原. Editorial museum/scientific reference aesthetic, warm paper white, deep forest green, charcoal, muted topographic blue, Noto Serif SC plus Noto Sans SC. No decorative wildlife poster, no full-bleed photo, no fake brand, no watermark, no garbled labels.",
+      "promptHash": "7fbb939b8a2be0556eed447acaf62fee9739f32b8698420da426229f11d80c75"
+    },
+    {
+      "out": "04-dynamic-taxonomy-browser.png",
+      "sha256": "3c34ad565de1385b2963a8cdae31cb1d9bae94aa6aa91136f05b7619a986897f",
+      "sizeBytes": 131008,
+      "width": 3840,
+      "height": 2160,
+      "prompt": "Use case: ui-mockup. Asset type: Atlas dynamic taxonomy browser for a universal encyclopedia. Straight-on 16:9 professional Chinese interface. Title 分类体系 and subtitle 可扩展的多父级知识分类. Left panel shows expandable tree 生命科学 > 动物 > 脊索动物门 > 哺乳纲 > 食肉目 > 猫科, with counts and selected 猫科. Center shows child and sibling category cards, definition, identifiers, parent paths, and curated entities 雪豹, 虎, 欧亚猞猁. Right panel titled 分类关系 displays multiple parents, equivalent classifications, schema version animals-1.0.0, relation types, source authority, and proposed Agent change badge 待审核. Include toolbar locale, rank filter, tree/graph switch. Scholarly data-catalog aesthetic, off-white, forest green, fine table rules, restrained taxonomy colors, crisp Chinese. Emphasize that taxonomy is data-driven and versioned. No org chart cliché, no glowing graph, no watermark, no garbled text.",
+      "promptHash": "98d3d918edd48c76d6a161f2c33c7422a5f48f903d41b8628cbc272169e536c9"
+    },
+    {
+      "out": "05-knowledge-relationship-explorer.png",
+      "sha256": "82d943d4c5b6240ff2d706effb09e7a91e71253332327bc98b909b46765f0615",
+      "sizeBytes": 115985,
+      "width": 3840,
+      "height": 2160,
+      "prompt": "Use case: ui-mockup. Asset type: Atlas knowledge relationship explorer centered on 银杏. Straight-on 16:9 Chinese professional web interface. Not a decorative network visualization: use a legible evidence-backed graph on a subtle grid with 银杏 in center connected by typed edges 属于 银杏属, 分布于 中国, 用于 园林, 化石记录关联 侏罗纪, aliases Ginkgo biloba. Left search and relation-type filters; right inspector for selected edge with source evidence, confidence 0.98, qualifiers, valid time, revision ID and 查看原始来源. Bottom timeline of relation changes and impact count. Toggle 图谱 / 列表 / 时间线. Warm off-white and deep forest green Atlas visual system, muted amber and blue relation types, precise labels, professional scholarly tool, no neon, no sci-fi, no unreadable node cloud, no watermark, no malformed Chinese.",
+      "promptHash": "50ed2c8353253013bd41e3d617bd2bc9cb813005f81516d06b6bd4d597d73c64"
+    },
+    {
+      "out": "06-schema-domain-pack-builder.png",
+      "sha256": "cae62bb16bba17572b1f48890ee7e1e5881d493f1187b15eb3f137a9e05e29ca",
+      "sizeBytes": 259294,
+      "width": 3840,
+      "height": 2160,
+      "prompt": "Use case: ui-mockup. Asset type: Atlas admin Schema and domain-pack builder showing how a new encyclopedia category is added without code changes. Straight-on 16:9 Chinese enterprise interface. Sidebar Schema 中心, 实体类型, 属性定义, 关系类型, 页面视图, 领域包. Selected domain pack 电子元件百科 electronics-1.0.0. Three-pane editor: left tree manifest.json, entity-types/electronic-component, attributes/supply-voltage, views/component-detail; center structured form for entity type 电子元件 with allow-listed fields and relations; right live page block preview listing hero, summary, attribute-table, relationship-list, citations. Top badges 兼容变更 and 校验通过. Bottom migration impact 12,640 个条目, golden render 24/24, button 提交 Schema 提案 rather than publish. Professional high-density admin, warm gray canvas, deep green sidebar, monospace only for keys, clear Chinese. No raw code editor dominating, no arbitrary executable scripts, no watermark, no garbled text.",
+      "promptHash": "7e07af1a239adba5b075e5359957730396a33a9cb9ef9b327d85d20bc34fa435"
+    },
+    {
+      "out": "07-agent-maintenance-operations.png",
+      "sha256": "88cb5f9d2cd910fe53bf11c1875050124a09a735c8c67a63dce0ae7bc3ac5a03",
+      "sizeBytes": 280236,
+      "width": 3840,
+      "height": 2160,
+      "prompt": "Use case: ui-mockup. Asset type: Atlas multi-Agent encyclopedia maintenance operations center. Straight-on 16:9 Chinese enterprise dashboard aligned with a scholarly encyclopedia, not a generic AI dashboard. Deep forest sidebar items 运行概览, Agent 编排, 变更提案, Schema 中心, 来源与许可, 发布与回滚, 审计日志. Header 知识维护运行中心. Every metric is explicitly labeled 持久化状态 and includes a generated timestamp and data version; show 活跃 Agent 调度 1, 待处理提案 2, 证据覆盖率 100%, 待分发事件 3 only as one coherent captured runtime snapshot, never as marketing totals. Versioned Agent registry cards for 来源变化监控, 结构化内容抽取, 实体消歧与归一化, 证据与政策核验, each with deterministic or optional-model policy and version. Recent governed proposals include a high-risk global Schema migration and evidence-backed content changes. Latest release panel shows actual blockers: one high-risk review and pending Outbox delivery. Warm off-white canvas, forest green, precise tables and small status icons plus text. No robot illustrations, no chat UI, no fake scale claims, no neon, no watermark, no garbled Chinese.",
+      "promptHash": "1808c29c5f69615b7dc88f57d3be626d42c8a15c25549b9584fa7b67e171cef3"
+    },
+    {
+      "out": "08-agent-proposal-review-release.png",
+      "sha256": "dc09796a58ab6a3bbc857e6560012cb26d3f73bb7cbdeac7b4ae8b7a8943e30a",
+      "sizeBytes": 126624,
+      "width": 3840,
+      "height": 2160,
+      "prompt": "Use case: ui-mockup. Asset type: Atlas evidence-first review screen for a global Domain Pack proposal that extends a universal encyclopedia without code changes. Straight-on 16:9 Chinese admin interface. Selected proposal 新增天文学领域包 astronomy-1.0.0, type schema, risk high, status human-review. Left provenance context shows immutable Agent run ID, 全局 Schema / Domain Pack scope, one atomic operation, ontology citation identifiers, and version badges. Center renders a structured operation-level diff for /domain-packs/astronomy/1.0.0: before value absent, after value contains knowledge space 天文与空间, taxonomy root 天体, entity type 天体, attribute 发现年份, and safe view blocks; include confidence 0.99 and citation count. Right policy gate shows policy version, dual-human approval progress, validation reasons, and actions 退回补证 and 批准提案. Bottom release context shows transactional Domain Pack publish, Outbox event, search index alias switch, and rollback target, but no direct publish button before approval. Professional audit workstation, warm paper gray, forest green, amber/red only with icons and text, clear Chinese typography. No entity-specific wildlife story, no generic analytics charts, no AI avatar, no watermark, no garbled text.",
+      "promptHash": "d396d958f6df5fd1435a597705040e7b1c4215b88dc9b4f63f91d385dfd4793a"
+    }
+  ]
+}

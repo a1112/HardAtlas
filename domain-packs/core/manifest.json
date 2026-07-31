@@ -1,0 +1,44 @@
+{
+  "id": "atlas-core-spaces",
+  "name": "Atlas 核心知识空间",
+  "version": "2.2.0",
+  "kernelVersion": "2.0",
+  "locales": ["zh-CN", "en"],
+  "spaceFiles": [
+    "spaces/life.json",
+    "spaces/engineering.json",
+    "spaces/earth.json",
+    "spaces/humanities.json",
+    "spaces/mathematics.json",
+    "spaces/medicine.json"
+  ],
+  "taxonomyNodeFiles": [
+    "taxonomy/animals.json",
+    "taxonomy/plants.json",
+    "taxonomy/electronic-components.json",
+    "taxonomy/geography.json",
+    "taxonomy/geology.json",
+    "taxonomy/history.json",
+    "taxonomy/language.json",
+    "taxonomy/mathematics.json",
+    "taxonomy/medicine.json"
+  ],
+  "entityTypeFiles": [
+    "entity-types/geography.json",
+    "entity-types/geology.json",
+    "entity-types/history.json",
+    "entity-types/language.json",
+    "entity-types/mathematics.json",
+    "entity-types/medicine.json"
+  ],
+  "attributeFiles": [],
+  "relationshipTypeFiles": [],
+  "viewFiles": [
+    "views/geography.json",
+    "views/geology.json",
+    "views/history.json",
+    "views/language.json",
+    "views/mathematics.json",
+    "views/medicine.json"
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@hardatlas/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "tauri": "tauri",
+    "build": "vite build",
+    "check": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@hardatlas/contracts": "workspace:*",
+    "@hardatlas/design-tokens": "workspace:*",
+    "@hardatlas/ui": "workspace:*",
+    "@tauri-apps/api": "^2.11.1",
+    "@tanstack/react-query": "^5.101.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.4",
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.4",
+    "typescript": "^5.9.2",
+    "vite": "^8.1.5",
+    "vitest": "^4.1.10"
+  }
+}

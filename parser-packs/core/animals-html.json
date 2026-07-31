@@ -1,0 +1,22 @@
+{
+  "id": "parser-animals-html",
+  "version": "1.0.0",
+  "format": "html",
+  "mediaTypes": ["text/html"],
+  "entityTypeId": "type-animal",
+  "locale": "zh-CN",
+  "recordSelector": "article.atlas-entry",
+  "externalIdPath": "@data-source-id",
+  "entityIdPath": "@data-entity-id",
+  "labelPath": "h1",
+  "fieldMappings": [
+    {
+      "sourcePath": "[data-atlas-field=summary]",
+      "targetPath": "/description/0/value",
+      "locale": "zh-CN",
+      "confidence": 0.7,
+      "required": false
+    }
+  ],
+  "maxRecords": 1000
+}

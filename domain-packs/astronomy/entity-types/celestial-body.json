@@ -1,0 +1,18 @@
+{
+  "id": "type-celestial-body",
+  "spaceId": "space-astronomy",
+  "key": "celestial-body",
+  "name": [
+    { "locale": "zh-CN", "value": "天体" },
+    { "locale": "en", "value": "Celestial body" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "恒星、行星、卫星等天体条目及其关系网络。"},
+    { "locale": "en", "value": "Entities for stars, planets, moons, and related celestial objects."}
+  ],
+  "allowedTaxonomyNodeIds": ["tax-astronomy", "tax-stars", "tax-planets"],
+  "attributeDefinitionIds": ["attr-discovery-year"],
+  "allowedRelationshipTypeIds": ["rel-discovered-by"],
+  "defaultViewDefinitionId": "view-celestial-body",
+  "schemaVersion": "schema-2.2.0"
+}

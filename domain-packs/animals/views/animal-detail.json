@@ -1,0 +1,27 @@
+{
+  "id": "view-animal",
+  "entityTypeId": "type-animal",
+  "schemaVersion": "schema-2.0.2",
+  "blocks": [
+    { "id": "hero", "type": "hero", "config": { "showAliases": true } },
+    { "id": "summary", "type": "summary", "config": {} },
+    {
+      "id": "classification",
+      "type": "classification",
+      "config": { "depth": 8 }
+    },
+    {
+      "id": "attributes",
+      "type": "attribute-table",
+      "config": { "group": "biology" }
+    },
+    {
+      "id": "map",
+      "type": "map",
+      "title": [{ "locale": "zh-CN", "value": "分布与栖息地" }],
+      "config": {}
+    },
+    { "id": "relations", "type": "relationship-list", "config": {} },
+    { "id": "citations", "type": "citations", "config": {} }
+  ]
+}

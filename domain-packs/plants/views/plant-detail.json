@@ -1,0 +1,21 @@
+{
+  "id": "view-plant",
+  "entityTypeId": "type-plant",
+  "schemaVersion": "schema-2.0.2",
+  "blocks": [
+    { "id": "hero", "type": "hero", "config": {} },
+    { "id": "summary", "type": "summary", "config": {} },
+    {
+      "id": "classification",
+      "type": "classification",
+      "config": { "depth": 8 }
+    },
+    {
+      "id": "timeline",
+      "type": "timeline",
+      "title": [{ "locale": "zh-CN", "value": "演化与人类利用" }],
+      "config": {}
+    },
+    { "id": "citations", "type": "citations", "config": {} }
+  ]
+}

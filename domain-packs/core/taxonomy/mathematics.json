@@ -1,0 +1,13 @@
+{
+  "id": "tax-mathematics",
+  "spaceId": "space-mathematics",
+  "slug": "mathematics",
+  "name": [
+    { "locale": "zh-CN", "value": "数学" },
+    { "locale": "en", "value": "Mathematics" }
+  ],
+  "parentIds": [],
+  "childCount": 14,
+  "entityCount": 80120,
+  "pathKeys": ["mathematics", "mathematics"]
+}

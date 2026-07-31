@@ -1,0 +1,10 @@
+{
+  "id": "attr-scientific-name",
+  "key": "scientific_name",
+  "name": [{ "locale": "zh-CN", "value": "学名" }],
+  "dataType": "text",
+  "cardinality": "one",
+  "required": true,
+  "validation": { "minLength": 2 },
+  "schemaVersion": "schema-2.0.1"
+}

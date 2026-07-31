@@ -1,0 +1,14 @@
+{
+  "id": "agent-taxonomy-maintainer",
+  "version": "1.0.0",
+  "name": "分类审核维护 Agent",
+  "role": "quality-assurance",
+  "handlerKey": "external-maintenance",
+  "description": "领取分类 Work Item，只提交活动实体类型允许且有固定修订引用的关系提案。",
+  "capabilities": ["taxonomy-read", "taxonomy-propose", "evidence-create"],
+  "allowedProposalTypes": ["relation"],
+  "maximumRisk": "medium",
+  "modelPolicy": "optional-model",
+  "inputContract": { "type": "object" },
+  "outputContract": { "type": "object" }
+}

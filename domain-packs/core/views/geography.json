@@ -1,0 +1,16 @@
+{
+  "id": "view-geography",
+  "entityTypeId": "type-geography",
+  "schemaVersion": "schema-2.0.1",
+  "blocks": [
+    { "id": "hero", "type": "hero", "config": {} },
+    { "id": "summary", "type": "summary", "config": {} },
+    {
+      "id": "location-map",
+      "type": "map",
+      "title": [{ "locale": "zh-CN", "value": "地理与地形" }],
+      "config": {}
+    },
+    { "id": "citations", "type": "citations", "config": {} }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "attr-discovery-year",
+  "key": "discovery_year",
+  "name": [
+    { "locale": "zh-CN", "value": "发现年份" },
+    { "locale": "en", "value": "Discovery year" }
+  ],
+  "dataType": "integer",
+  "cardinality": "one",
+  "required": true,
+  "validation": { "minimum": 0, "maximum": 2500 },
+  "schemaVersion": "schema-2.0.1"
+}

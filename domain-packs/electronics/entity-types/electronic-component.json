@@ -1,0 +1,21 @@
+{
+  "id": "type-electronic-component",
+  "spaceId": "space-engineering",
+  "key": "electronic-component",
+  "name": [
+    { "locale": "zh-CN", "value": "电子元件" },
+    { "locale": "en", "value": "Electronic component" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "器件功能、引脚、参数、封装、变体与应用" },
+    {
+      "locale": "en",
+      "value": "Functions, pins, parameters, packages, variants, and applications"
+    }
+  ],
+  "allowedTaxonomyNodeIds": ["tax-electronics"],
+  "attributeDefinitionIds": ["attr-supply-voltage"],
+  "allowedRelationshipTypeIds": ["rel-variant-of", "rel-used-in"],
+  "defaultViewDefinitionId": "view-electronic-component",
+  "schemaVersion": "schema-2.2.0"
+}

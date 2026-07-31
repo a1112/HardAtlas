@@ -1,0 +1,20 @@
+{
+  "id": "atlas-core-maintenance",
+  "name": "Atlas 核心知识维护 Agent",
+  "version": "1.5.0",
+  "kernelVersion": "2.0",
+  "agentDefinitionFiles": [
+    "agents/source-monitor.json",
+    "agents/content-extractor.json",
+    "agents/entity-resolver.json",
+    "agents/evidence-verifier.json",
+    "agents/quality-triage.json",
+    "agents/source-acquisition-router.json",
+    "agents/translation-maintainer.json",
+    "agents/taxonomy-maintainer.json"
+  ],
+  "graphFiles": [
+    "graphs/knowledge-maintenance.json",
+    "graphs/quality-maintenance-triage.json"
+  ]
+}

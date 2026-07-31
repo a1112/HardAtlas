@@ -1,0 +1,13 @@
+{
+  "id": "tax-medicine",
+  "spaceId": "space-medicine",
+  "slug": "medicine",
+  "name": [
+    { "locale": "zh-CN", "value": "医学" },
+    { "locale": "en", "value": "Medicine" }
+  ],
+  "parentIds": [],
+  "childCount": 17,
+  "entityCount": 310430,
+  "pathKeys": ["medicine", "medicine"]
+}

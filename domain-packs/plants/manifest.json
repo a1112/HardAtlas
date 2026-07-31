@@ -1,0 +1,15 @@
+{
+  "id": "plants",
+  "name": "植物百科",
+  "version": "2.2.0",
+  "kernelVersion": "2.0",
+  "locales": ["zh-CN", "en"],
+  "entityTypeFiles": ["entity-types/plant.json"],
+  "attributeFiles": ["attributes/scientific-name.json"],
+  "relationshipTypeFiles": [
+    "relationship-types/taxonomic-parent.json",
+    "relationship-types/distributed-in.json"
+  ],
+  "viewFiles": ["views/plant-detail.json"],
+  "qualityProfileFiles": ["quality/plant.json"]
+}

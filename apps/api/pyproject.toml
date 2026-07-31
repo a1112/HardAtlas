@@ -1,0 +1,33 @@
+[project]
+name = "hardatlas-api"
+version = "0.1.0"
+description = "Hardware Atlas HTTP and SSE entry point"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.116.1",
+  "hardatlas-ai",
+  "hardatlas-data",
+  "hardatlas-domain",
+  "hardatlas-ingestion",
+  "hardatlas-rules",
+  "PyJWT[crypto]>=2.10.1",
+  "pydantic-settings>=2.10.1",
+  "uvicorn[standard]>=0.35.0",
+]
+
+[tool.uv.sources]
+hardatlas-ai = { workspace = true }
+hardatlas-data = { workspace = true }
+hardatlas-domain = { workspace = true }
+hardatlas-ingestion = { workspace = true }
+hardatlas-rules = { workspace = true }
+
+[project.scripts]
+hardatlas-api = "hardatlas_api.main:run"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hardatlas_api"]

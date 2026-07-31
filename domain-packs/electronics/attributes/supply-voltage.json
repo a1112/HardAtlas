@@ -1,0 +1,11 @@
+{
+  "id": "attr-supply-voltage",
+  "key": "supply_voltage",
+  "name": [{ "locale": "zh-CN", "value": "供电电压" }],
+  "dataType": "measurement",
+  "cardinality": "one",
+  "required": true,
+  "unitFamily": "voltage",
+  "validation": { "min": 0 },
+  "schemaVersion": "schema-2.0.1"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "view-sea-feature-detail",
+  "entityTypeId": "type-sea-feature",
+  "schemaVersion": "schema-1.0.0",
+  "blocks": [
+    { "id": "hero", "type": "hero", "config": { "showAliases": true } },
+    { "id": "summary", "type": "summary", "config": {} },
+    {
+      "id": "location-map",
+      "type": "map",
+      "title": [{ "locale": "zh-CN", "value": "空间与地理" }],
+      "config": {}
+    },
+    {
+      "id": "attribute-table",
+      "type": "attribute-table",
+      "config": { "group": "physical" }
+    },
+    { "id": "relations", "type": "relationship-list", "config": { "groupByType": true } },
+    { "id": "citations", "type": "citations", "config": {} }
+  ]
+}

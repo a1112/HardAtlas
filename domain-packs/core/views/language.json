@@ -1,0 +1,11 @@
+{
+  "id": "view-language",
+  "entityTypeId": "type-language",
+  "schemaVersion": "schema-2.0.1",
+  "blocks": [
+    { "id": "hero", "type": "hero", "config": {} },
+    { "id": "summary", "type": "summary", "config": {} },
+    { "id": "attributes", "type": "attribute-table", "config": {} },
+    { "id": "citations", "type": "citations", "config": {} }
+  ]
+}

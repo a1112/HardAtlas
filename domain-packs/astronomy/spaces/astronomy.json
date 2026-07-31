@@ -1,0 +1,15 @@
+{
+  "id": "space-astronomy",
+  "slug": "astronomy",
+  "name": [
+    { "locale": "zh-CN", "value": "天文与空间" },
+    { "locale": "en", "value": "Astronomy & Space" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "天体、轨道、探测与宇宙探索相关知识实体。"},
+    { "locale": "en", "value": "Knowledge entities about celestial bodies, orbits, detection, and space exploration."}
+  ],
+  "rootTaxonomyNodeIds": ["tax-astronomy"],
+  "iconKey": "earth",
+  "status": "published"
+}

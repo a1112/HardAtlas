@@ -1,0 +1,13 @@
+{
+  "id": "tax-plants",
+  "spaceId": "space-life",
+  "slug": "plants",
+  "name": [
+    { "locale": "zh-CN", "value": "植物" },
+    { "locale": "en", "value": "Plants" }
+  ],
+  "parentIds": [],
+  "childCount": 11,
+  "entityCount": 391084,
+  "pathKeys": ["life", "plants"]
+}

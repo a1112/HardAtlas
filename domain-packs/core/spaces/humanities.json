@@ -1,0 +1,15 @@
+{
+  "id": "space-humanities",
+  "slug": "humanities",
+  "name": [
+    { "locale": "zh-CN", "value": "人文与历史" },
+    { "locale": "en", "value": "Humanities and History" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "人物、事件、文化、语言与艺术" },
+    { "locale": "en", "value": "People, events, cultures, languages, and arts" }
+  ],
+  "rootTaxonomyNodeIds": ["tax-history", "tax-language"],
+  "iconKey": "humanities",
+  "status": "published"
+}

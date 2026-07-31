@@ -1,0 +1,18 @@
+{
+  "id": "space-life",
+  "slug": "life",
+  "name": [
+    { "locale": "zh-CN", "value": "生命科学" },
+    { "locale": "en", "value": "Life Sciences" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "动物、植物、微生物、生态与演化" },
+    {
+      "locale": "en",
+      "value": "Animals, plants, microorganisms, ecology, and evolution"
+    }
+  ],
+  "rootTaxonomyNodeIds": ["tax-animals", "tax-plants"],
+  "iconKey": "life",
+  "status": "published"
+}

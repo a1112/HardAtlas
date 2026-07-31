@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "platform": "windows",
+  "capturedAt": "2026-07-28T12:00:00Z",
+  "approvedFields": ["cpu.model", "gpu.pci_id", "board.smbios_product"],
+  "components": [
+    {
+      "kind": "cpu",
+      "reportedName": "AMD Ryzen 9 9950X 16-Core Processor",
+      "signals": ["CPUID:A20F12"],
+      "serialNumber": null
+    },
+    {
+      "kind": "gpu",
+      "reportedName": "NVIDIA GeForce RTX 5090",
+      "signals": ["PCI\\VEN_10DE&DEV_2B85"],
+      "serialNumber": null
+    }
+  ],
+  "privacyAssertion": "No device-unique serial, account, hostname, network address, or file content."
+}

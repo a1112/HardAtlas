@@ -1,0 +1,108 @@
+name: hardatlas-local
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_DB: hardatlas
+      POSTGRES_USER: hardatlas
+      POSTGRES_PASSWORD: hardatlas
+    ports: ["5432:5432"]
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hardatlas -d hardatlas"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  migrate:
+    image: ghcr.io/astral-sh/uv:python3.13-bookworm-slim
+    working_dir: /workspace
+    command:
+      [
+        "uv",
+        "run",
+        "alembic",
+        "-c",
+        "packages/py/data/alembic.ini",
+        "upgrade",
+        "head",
+      ]
+    environment:
+      HARDATLAS_DATABASE_URL: postgresql+psycopg://hardatlas:hardatlas@postgres:5432/hardatlas
+      UV_PROJECT_ENVIRONMENT: /tmp/hardatlas-venv
+    volumes:
+      - ../..:/workspace:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  redis:
+    image: redis:8-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports: ["6379:6379"]
+    volumes: [redis-data:/data]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  opensearch:
+    image: opensearchproject/opensearch:3
+    environment:
+      discovery.type: single-node
+      plugins.security.disabled: "true"
+      OPENSEARCH_JAVA_OPTS: -Xms512m -Xmx512m
+    ports: ["9200:9200"]
+    volumes: [opensearch-data:/usr/share/opensearch/data]
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9200/_cluster/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  minio:
+    image: minio/minio:latest
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: hardatlas
+      MINIO_ROOT_PASSWORD: hardatlas-local-only
+    ports: ["9000:9000", "9001:9001"]
+    volumes: [minio-data:/data]
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.3
+    command: ["start-dev", "--health-enabled=true"]
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    ports: ["8080:8080"]
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "exec 3<>/dev/tcp/127.0.0.1/9000; echo -e 'GET /health/ready HTTP/1.1\\r\\nhost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3; grep 'HTTP/1.1 200 OK' <&3",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.131.1
+    command: ["--config=/etc/otelcol-contrib/config.yaml"]
+    volumes:
+      - ../observability/otel-collector.yaml:/etc/otelcol-contrib/config.yaml:ro
+    ports: ["4317:4317", "4318:4318"]
+
+volumes:
+  postgres-data:
+  redis-data:
+  opensearch-data:
+  minio-data:

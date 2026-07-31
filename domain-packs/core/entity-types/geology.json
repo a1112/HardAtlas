@@ -1,0 +1,17 @@
+{
+  "id": "type-geology",
+  "spaceId": "space-earth",
+  "key": "geology",
+  "name": [
+    { "locale": "zh-CN", "value": "地质与资源" },
+    { "locale": "en", "value": "Geology" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "地质构造、岩石与矿产的知识条目类型" }
+  ],
+  "allowedTaxonomyNodeIds": ["tax-geology"],
+  "attributeDefinitionIds": [],
+  "allowedRelationshipTypeIds": [],
+  "defaultViewDefinitionId": "view-geology",
+  "schemaVersion": "schema-2.1.0"
+}

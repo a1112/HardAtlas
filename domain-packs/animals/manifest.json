@@ -1,0 +1,18 @@
+{
+  "id": "animals",
+  "name": "动物百科",
+  "version": "2.2.0",
+  "kernelVersion": "2.0",
+  "locales": ["zh-CN", "en"],
+  "entityTypeFiles": ["entity-types/animal.json"],
+  "attributeFiles": [
+    "attributes/scientific-name.json",
+    "attributes/conservation-status.json"
+  ],
+  "relationshipTypeFiles": [
+    "relationship-types/taxonomic-parent.json",
+    "relationship-types/distributed-in.json"
+  ],
+  "viewFiles": ["views/animal-detail.json"],
+  "qualityProfileFiles": ["quality/animal.json"]
+}

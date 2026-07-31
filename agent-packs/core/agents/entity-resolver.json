@@ -1,0 +1,35 @@
+{
+  "id": "agent-entity-resolver",
+  "version": "1.2.0",
+  "name": "实体消歧与归一化",
+  "role": "entity-resolution",
+  "handlerKey": "entity-resolution",
+  "description": "将候选标签解析到规范实体，保留消歧证据与归一化结果。",
+  "capabilities": ["search-read", "entity-read", "alias-normalization"],
+  "allowedProposalTypes": ["content", "relation", "merge"],
+  "maximumRisk": "high",
+  "modelPolicy": "optional-model",
+  "inputContract": {
+    "type": "object",
+    "properties": {
+      "entityId": { "type": "string", "minLength": 1 },
+      "candidateEntityIds": {
+        "type": "array",
+        "maxItems": 100,
+        "uniqueItems": true,
+        "items": { "type": "string", "minLength": 1 }
+      },
+      "modelProcessingAllowed": { "type": "boolean" }
+    },
+    "required": ["entityId"]
+  },
+  "outputContract": {
+    "type": "object",
+    "properties": {
+      "entityId": { "type": "string", "minLength": 1 },
+      "normalizedLabel": { "type": "string", "minLength": 1 },
+      "resolutionMode": { "enum": ["deterministic", "model"] }
+    },
+    "required": ["entityId", "normalizedLabel"]
+  }
+}

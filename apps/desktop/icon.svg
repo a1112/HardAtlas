@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Atlas">
+  <rect width="512" height="512" rx="112" fill="#0b1f33"/>
+  <rect x="112" y="112" width="288" height="288" rx="64" fill="#0f8f83"/>
+  <path d="M190 176h132a14 14 0 0 1 14 14v132a14 14 0 0 1-14 14H190a14 14 0 0 1-14-14V190a14 14 0 0 1 14-14Z" fill="#f5f7f6"/>
+  <path d="M217 298V214h28v31h22v-31h28v84h-28v-29h-22v29Z" fill="#0b1f33"/>
+  <g stroke="#81d5ca" stroke-width="16" stroke-linecap="round">
+    <path d="M152 200h-32M152 256h-32M152 312h-32M392 200h-32M392 256h-32M392 312h-32"/>
+    <path d="M200 152v-32M256 152v-32M312 152v-32M200 392v-32M256 392v-32M312 392v-32"/>
+  </g>
+</svg>

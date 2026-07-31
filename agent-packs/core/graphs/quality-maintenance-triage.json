@@ -1,0 +1,25 @@
+{
+  "id": "quality-maintenance-triage",
+  "version": "graph-1.0.0",
+  "name": "质量维护安全分流图",
+  "description": "将持久化质量缺口路由到需要证据的后续阶段；本图不创建或发布内容。",
+  "domainPackIds": ["animals", "plants", "electronics"],
+  "triggerTypes": ["manual", "schedule"],
+  "budget": {
+    "maxAttemptsPerNode": 2,
+    "maxTotalAttempts": 2,
+    "maxModelCalls": 0,
+    "maxInputTokens": 0,
+    "maxOutputTokens": 0,
+    "maxCostMicrousd": 0,
+    "deadlineSeconds": 60
+  },
+  "nodes": [
+    {
+      "id": "triage",
+      "agentId": "agent-quality-triage",
+      "agentVersion": "1.0.0",
+      "maxAttempts": 2
+    }
+  ]
+}

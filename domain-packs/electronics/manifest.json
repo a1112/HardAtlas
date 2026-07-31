@@ -1,0 +1,15 @@
+{
+  "id": "electronics",
+  "name": "电子元件百科",
+  "version": "2.2.0",
+  "kernelVersion": "2.0",
+  "locales": ["zh-CN", "en"],
+  "entityTypeFiles": ["entity-types/electronic-component.json"],
+  "attributeFiles": ["attributes/supply-voltage.json"],
+  "relationshipTypeFiles": [
+    "relationship-types/variant-of.json",
+    "relationship-types/used-in.json"
+  ],
+  "viewFiles": ["views/component-detail.json"],
+  "qualityProfileFiles": ["quality/electronic-component.json"]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "tax-language",
+  "spaceId": "space-humanities",
+  "slug": "language",
+  "name": [
+    { "locale": "zh-CN", "value": "语言与文字" },
+    { "locale": "en", "value": "Language" }
+  ],
+  "parentIds": [],
+  "childCount": 16,
+  "entityCount": 75300,
+  "pathKeys": ["humanities", "language"]
+}

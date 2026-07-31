@@ -1,0 +1,17 @@
+{
+  "id": "type-medicine",
+  "spaceId": "space-medicine",
+  "key": "medicine",
+  "name": [
+    { "locale": "zh-CN", "value": "医学实体" },
+    { "locale": "en", "value": "Medical Entries" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "解剖、生理、疾病与治疗相关条目类型" }
+  ],
+  "allowedTaxonomyNodeIds": ["tax-medicine"],
+  "attributeDefinitionIds": [],
+  "allowedRelationshipTypeIds": [],
+  "defaultViewDefinitionId": "view-medicine",
+  "schemaVersion": "schema-2.1.0"
+}

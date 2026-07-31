@@ -1,0 +1,10 @@
+{
+  "id": "tax-deep-sea",
+  "spaceId": "space-oceanography",
+  "slug": "deep-sea",
+  "name": [{ "locale": "zh-CN", "value": "深海地形" }],
+  "parentIds": ["tax-marine-objects"],
+  "childCount": 0,
+  "entityCount": 1,
+  "pathKeys": ["oceanography", "marine-objects", "deep-sea"]
+}

@@ -1,0 +1,13 @@
+{
+  "id": "tax-animals",
+  "spaceId": "space-life",
+  "slug": "animals",
+  "name": [
+    { "locale": "zh-CN", "value": "动物" },
+    { "locale": "en", "value": "Animals" }
+  ],
+  "parentIds": [],
+  "childCount": 14,
+  "entityCount": 482316,
+  "pathKeys": ["life", "animals"]
+}

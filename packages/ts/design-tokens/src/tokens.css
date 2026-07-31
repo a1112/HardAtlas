@@ -1,0 +1,22 @@
+:root {
+  color-scheme: light;
+  --ha-navy-950: #07111f;
+  --ha-navy-900: #0b1b2e;
+  --ha-navy-800: #12304d;
+  --ha-teal-600: #0f8f8a;
+  --ha-teal-500: #19a7a0;
+  --ha-canvas: #f4f7f9;
+  --ha-surface: #ffffff;
+  --ha-border: #d8e1e8;
+  --ha-text: #142235;
+  --ha-muted: #607085;
+  --ha-compatible: #178755;
+  --ha-conditional: #b7791f;
+  --ha-incompatible: #c23b3b;
+  --ha-unknown: #687587;
+  --ha-radius-sm: 0.5rem;
+  --ha-radius-md: 0.75rem;
+  --ha-shadow-card: 0 8px 24px rgb(7 17 31 / 8%);
+  --ha-font-sans:
+    Inter, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}

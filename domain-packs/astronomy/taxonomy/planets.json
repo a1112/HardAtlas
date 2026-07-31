@@ -1,0 +1,10 @@
+{
+  "id": "tax-planets",
+  "spaceId": "space-astronomy",
+  "slug": "planets",
+  "name": [{ "locale": "zh-CN", "value": "行星" }],
+  "parentIds": ["tax-astronomy"],
+  "childCount": 0,
+  "entityCount": 0,
+  "pathKeys": ["天文与空间", "行星"]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "hardatlas",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:web": "pnpm --filter @hardatlas/web dev",
+    "dev:admin": "pnpm --filter @hardatlas/admin dev",
+    "dev:desktop": "pnpm --filter @hardatlas/desktop dev",
+    "build": "turbo build",
+    "check": "turbo check test && pnpm run check:proxy",
+    "test": "turbo test",
+    "test:e2e": "playwright test",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "generate:api": "bash scripts/generate-openapi-client.sh",
+    "check:proxy": "node scripts/check-proxy-boundaries.mjs",
+    "verify:image-assets": "node scripts/verify-image-assets.mjs",
+    "images:manifest": "node scripts/generate-image-manifest.mjs",
+    "verify": "bash scripts/verify-stack.sh",
+    "verify:archive": "bash scripts/verify_archive.sh"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
+    "@playwright/test": "^1.62.0",
+    "openapi-typescript": "^7.9.1",
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.6",
+    "typescript": "^5.9.2"
+  },
+  "packageManager": "pnpm@10.14.0"
+}

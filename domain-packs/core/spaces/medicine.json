@@ -1,0 +1,21 @@
+{
+  "id": "space-medicine",
+  "slug": "medicine",
+  "name": [
+    { "locale": "zh-CN", "value": "医学与健康" },
+    { "locale": "en", "value": "Medicine and Health" }
+  ],
+  "description": [
+    {
+      "locale": "zh-CN",
+      "value": "解剖、生理、疾病、治疗与公共健康"
+    },
+    {
+      "locale": "en",
+      "value": "Anatomy, physiology, disease, treatment, and public health"
+    }
+  ],
+  "rootTaxonomyNodeIds": ["tax-medicine"],
+  "iconKey": "medicine",
+  "status": "published"
+}

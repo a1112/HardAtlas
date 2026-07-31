@@ -1,0 +1,19 @@
+[project]
+name = "hardatlas-rules"
+version = "0.1.0"
+description = "Versioned declarative compatibility rules"
+requires-python = ">=3.12"
+dependencies = [
+  "hardatlas-domain",
+  "pydantic>=2.11.7",
+]
+
+[tool.uv.sources]
+hardatlas-domain = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hardatlas_rules"]

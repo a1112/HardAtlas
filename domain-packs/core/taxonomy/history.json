@@ -1,0 +1,13 @@
+{
+  "id": "tax-history",
+  "spaceId": "space-humanities",
+  "slug": "history",
+  "name": [
+    { "locale": "zh-CN", "value": "历史" },
+    { "locale": "en", "value": "History" }
+  ],
+  "parentIds": [],
+  "childCount": 9,
+  "entityCount": 210000,
+  "pathKeys": ["humanities", "history"]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "attr-conservation",
+  "key": "conservation_status",
+  "name": [{ "locale": "zh-CN", "value": "保护状况" }],
+  "dataType": "enum",
+  "cardinality": "one",
+  "required": false,
+  "enumValues": ["LC", "NT", "VU", "EN", "CR", "EW", "EX"],
+  "validation": {},
+  "schemaVersion": "schema-2.0.0"
+}

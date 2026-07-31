@@ -1,0 +1,18 @@
+{
+  "id": "space-earth",
+  "slug": "earth",
+  "name": [
+    { "locale": "zh-CN", "value": "地球与环境" },
+    { "locale": "en", "value": "Earth and Environment" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "地理、气候、地质与自然现象" },
+    {
+      "locale": "en",
+      "value": "Geography, climate, geology, and natural phenomena"
+    }
+  ],
+  "rootTaxonomyNodeIds": ["tax-geography", "tax-geology"],
+  "iconKey": "earth",
+  "status": "published"
+}

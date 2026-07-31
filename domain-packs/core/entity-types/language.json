@@ -1,0 +1,17 @@
+{
+  "id": "type-language",
+  "spaceId": "space-humanities",
+  "key": "language",
+  "name": [
+    { "locale": "zh-CN", "value": "语言与文字" },
+    { "locale": "en", "value": "Language and Writing" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "语系、语法与文字系统的条目类型" }
+  ],
+  "allowedTaxonomyNodeIds": ["tax-language"],
+  "attributeDefinitionIds": [],
+  "allowedRelationshipTypeIds": [],
+  "defaultViewDefinitionId": "view-language",
+  "schemaVersion": "schema-2.1.0"
+}

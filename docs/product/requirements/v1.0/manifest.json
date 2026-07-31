@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "document": {
+    "filename": "Hardware_Encyclopedia_Functional_Design_V1.0_CN.docx",
+    "version": "V1.0",
+    "status": "产品评审稿",
+    "published_at": "2026-07-27",
+    "language": "zh-CN",
+    "size_bytes": 972600,
+    "sha256": "9618a1e3214616e5f80f1e8e1d6e14686a0ceac9685f139f5ef12997de87d556"
+  },
+  "inspection": {
+    "paragraphs": 634,
+    "tables": 75,
+    "inline_figures": 5,
+    "rendered_pages": 56,
+    "tracked_insertions": 0,
+    "tracked_deletions": 0,
+    "comments": false,
+    "render_note": "Local LibreOffice preview lacked matching Chinese fonts; source was preserved."
+  }
+}

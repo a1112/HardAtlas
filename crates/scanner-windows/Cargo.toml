@@ -1,0 +1,11 @@
+[package]
+name = "scanner-windows"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+scanner-core = { path = "../scanner-core" }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = ["Win32_System_SystemInformation"] }

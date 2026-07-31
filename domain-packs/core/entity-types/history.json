@@ -1,0 +1,17 @@
+{
+  "id": "type-history",
+  "spaceId": "space-humanities",
+  "key": "history",
+  "name": [
+    { "locale": "zh-CN", "value": "历史与文明" },
+    { "locale": "en", "value": "History and Civilizations" }
+  ],
+  "description": [
+    { "locale": "zh-CN", "value": "历史人物、事件与文明演变的条目类型" }
+  ],
+  "allowedTaxonomyNodeIds": ["tax-history"],
+  "attributeDefinitionIds": [],
+  "allowedRelationshipTypeIds": [],
+  "defaultViewDefinitionId": "view-history",
+  "schemaVersion": "schema-2.1.0"
+}

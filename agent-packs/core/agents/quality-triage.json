@@ -1,0 +1,81 @@
+{
+  "id": "agent-quality-triage",
+  "version": "1.0.0",
+  "name": "质量缺口安全分流",
+  "role": "quality-assurance",
+  "handlerKey": "quality-triage",
+  "description": "将版本固定的质量缺口分流到采集、翻译或分类工作，不生成无证据内容提案。",
+  "capabilities": [
+    "quality-assessment-read",
+    "entity-read",
+    "maintenance-route"
+  ],
+  "allowedProposalTypes": [],
+  "maximumRisk": "low",
+  "modelPolicy": "deterministic",
+  "inputContract": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "maintenanceTaskId": { "type": "string", "minLength": 1 },
+      "assessmentId": { "type": "string", "minLength": 1 },
+      "entityId": { "type": "string", "minLength": 1 },
+      "entityTypeId": { "type": "string", "minLength": 1 },
+      "currentRevisionId": { "type": "string", "minLength": 1 },
+      "profileId": { "type": "string", "minLength": 1 },
+      "profileVersion": { "type": "string", "minLength": 1 },
+      "issueCode": { "type": "string", "minLength": 1 },
+      "issuePath": { "type": "string", "pattern": "^/" },
+      "action": {
+        "enum": [
+          "enrich-attribute",
+          "translate",
+          "add-citation",
+          "add-section",
+          "refresh-evidence",
+          "classify"
+        ]
+      }
+    },
+    "required": [
+      "maintenanceTaskId",
+      "assessmentId",
+      "entityId",
+      "entityTypeId",
+      "currentRevisionId",
+      "profileId",
+      "profileVersion",
+      "issueCode",
+      "issuePath",
+      "action"
+    ]
+  },
+  "outputContract": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "maintenanceTaskId": { "type": "string", "minLength": 1 },
+      "entityId": { "type": "string", "minLength": 1 },
+      "currentRevisionId": { "type": "string", "minLength": 1 },
+      "action": { "type": "string", "minLength": 1 },
+      "route": {
+        "enum": [
+          "source-acquisition",
+          "translation-evidence",
+          "taxonomy-review"
+        ]
+      },
+      "requiresEvidence": { "const": true },
+      "proposalEligible": { "const": false }
+    },
+    "required": [
+      "maintenanceTaskId",
+      "entityId",
+      "currentRevisionId",
+      "action",
+      "route",
+      "requiresEvidence",
+      "proposalEligible"
+    ]
+  }
+}

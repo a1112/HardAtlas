@@ -1,0 +1,21 @@
+{
+  "id": "space-mathematics",
+  "slug": "mathematics",
+  "name": [
+    { "locale": "zh-CN", "value": "数学与逻辑" },
+    { "locale": "en", "value": "Mathematics and Logic" }
+  ],
+  "description": [
+    {
+      "locale": "zh-CN",
+      "value": "数学基础、模型、统计与计算推理"
+    },
+    {
+      "locale": "en",
+      "value": "Mathematical foundations, modeling, statistics, and computational reasoning"
+    }
+  ],
+  "rootTaxonomyNodeIds": ["tax-mathematics"],
+  "iconKey": "mathematics",
+  "status": "published"
+}

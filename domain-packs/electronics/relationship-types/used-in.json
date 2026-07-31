@@ -1,0 +1,14 @@
+{
+  "id": "rel-used-in",
+  "key": "used_in",
+  "name": [{ "locale": "zh-CN", "value": "用于" }],
+  "inverseName": [{ "locale": "zh-CN", "value": "使用元件" }],
+  "directed": true,
+  "sourceEntityTypeIds": ["type-electronic-component"],
+  "targetEntityTypeIds": [],
+  "sourceCardinality": "many",
+  "targetCardinality": "many",
+  "qualifierSchema": { "function": { "type": "string" } },
+  "evidenceRequired": true,
+  "schemaVersion": "relations-electronics-1.0.0"
+}
