@@ -5,6 +5,11 @@ on:
     branches:
       - main
   pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: hardatlas-verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   verify:
@@ -20,6 +25,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,6 +37,14 @@ jobs:
         uses: astral-sh/setup-uv@v5
         with:
           version: latest
+
+      - name: Cache uv wheels
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-${{ hashFiles('uv.lock', 'pyproject.toml', 'packages/py/**/pyproject.toml') }}
+          restore-keys: |
+            uv-${{ runner.os }}-
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
