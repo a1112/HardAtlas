@@ -62,6 +62,7 @@ jobs:
 
       - name: Run full verification stack
         run: |
+          mkdir -p output/playwright/report output/playwright/test-results
           set -o pipefail
           bash scripts/verify-stack.sh | tee output/verify-stack.log
 
