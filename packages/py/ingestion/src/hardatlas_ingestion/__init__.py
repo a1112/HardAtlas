@@ -1,8 +1,8 @@
 from .acquisition import (
     AcquisitionError,
     AcquisitionResult,
-    validate_acquisition_url,
     acquire_http_source,
+    validate_acquisition_url,
 )
 from .extraction import (
     ExtractionError,

@@ -1,6 +1,6 @@
 import csv
-import hashlib
 import glob
+import hashlib
 import io
 import json
 from collections.abc import Iterable

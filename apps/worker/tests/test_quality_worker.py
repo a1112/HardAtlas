@@ -17,8 +17,8 @@ from hardatlas_worker.tasks import (
     activate_maintenance_work_once,
     assess_knowledge_quality_once,
     dispatch_maintenance_work_events,
-    dispatch_source_acquisition_events,
     dispatch_quality_maintenance_events,
+    dispatch_source_acquisition_events,
     execute_agent_schedule_once,
     execute_source_acquisition_once,
     request_source_acquisition_for_work_once,
@@ -219,6 +219,25 @@ def test_quality_dispatch_retains_invalid_event_for_repair() -> None:
         "skipped": 0,
         "failed": 1,
     }
+    assert repository.pending_outbox_ids(topic="quality.maintenance.requested") == [event_id]
+
+
+def test_quality_dispatch_fails_when_task_id_missing() -> None:
+    repository = KnowledgeRepository(create_engine("sqlite+pysqlite:///:memory:"))
+    repository.create_schema()
+    loaded_pack = load_agent_pack(Path(__file__).parents[3] / "agent-packs" / "core")
+    graph = next(item for item in loaded_pack.graphs if item.id == "quality-maintenance-triage")
+    event_id = repository.requeue_outbox_event(
+        topic="quality.maintenance.requested",
+        aggregate_id="",
+        payload={},
+    )
+
+    assert dispatch_quality_maintenance_events(
+        repository,
+        graph,
+    ) == {"scheduled": 0, "skipped": 0, "failed": 1}
+
     assert repository.pending_outbox_ids(topic="quality.maintenance.requested") == [event_id]
 
 
@@ -730,14 +749,18 @@ def test_requeued_source_work_is_rerouted_and_completed_via_worker_path(
         work_item.id,
     )
     assert requeued.status == "queued"
-    assert outbox_event_id in local_repository.pending_outbox_ids(topic="maintenance.work.requested")
+    assert outbox_event_id in local_repository.pending_outbox_ids(
+        topic="maintenance.work.requested"
+    )
 
     assert dispatch_maintenance_work_events(
         local_repository,
         lambda item_id: activate_maintenance_work_once(local_repository, item_id),
     ) == {"dispatched": 1, "failed": 0}
     assert local_repository.get_maintenance_work_item(work_item.id).status == "ready"
-    assert outbox_event_id not in local_repository.pending_outbox_ids(topic="maintenance.work.requested")
+    assert outbox_event_id not in local_repository.pending_outbox_ids(
+        topic="maintenance.work.requested"
+    )
 
     routed, job = request_source_acquisition_for_work_once(
         local_repository,

@@ -465,24 +465,29 @@ class OpenSearchBackend:
         for raw_hit in payload.get("hits", {}).get("hits", []):
             source = raw_hit.get("_source", {})
             highlights = raw_hit.get("highlight", {})
-            matched_index_field = next(
-                (field for field in public_fields if highlights.get(field)),
-                "canonical_name",
-            )
-            highlighted_values = highlights.get(matched_index_field)
-            if highlighted_values:
-                matched_text = str(highlighted_values[0])
+            if not query.strip():
+                matched_field = "browse"
+                matched_text = str(source.get("canonical_name", ""))
             else:
-                source_value = source.get(matched_index_field, "")
-                if isinstance(source_value, list):
-                    matched_text = str(source_value[0] if source_value else "")
+                matched_index_field = next(
+                    (field for field in public_fields if highlights.get(field)),
+                    "canonical_name",
+                )
+                highlighted_values = highlights.get(matched_index_field)
+                if highlighted_values:
+                    matched_text = str(highlighted_values[0])
                 else:
-                    matched_text = str(source_value)
+                    source_value = source.get(matched_index_field, "")
+                    if isinstance(source_value, list):
+                        matched_text = str(source_value[0] if source_value else "")
+                    else:
+                        matched_text = str(source_value)
+                matched_field = public_fields[matched_index_field]
             hits.append(
                 SearchHit(
                     slug=str(source["slug"]),
                     matched_text=matched_text,
-                    matched_field=public_fields[matched_index_field],
+                    matched_field=matched_field,
                     score=float(raw_hit.get("_score") or 0),
                 )
             )

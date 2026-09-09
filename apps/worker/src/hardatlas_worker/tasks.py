@@ -1,5 +1,5 @@
-import hashlib
 import glob
+import hashlib
 import os
 from collections.abc import Callable
 from datetime import UTC, datetime
@@ -450,7 +450,15 @@ def dispatch_agent_schedule_events(
     dispatched = 0
     failed = 0
     for event in events:
-        schedule_id = str(event.payload.get("scheduleId") or event.aggregate_id)
+        schedule_id = event.payload.get("scheduleId") or event.aggregate_id
+        if not schedule_id:
+            repository.mark_outbox_failed(
+                [event.id],
+                "Outbox event has no scheduleId or aggregate_id.",
+            )
+            failed += 1
+            continue
+        schedule_id = str(schedule_id)
         try:
             enqueue(schedule_id)
         except Exception as error:
@@ -519,14 +527,15 @@ def dispatch_quality_maintenance_events(
     skipped = 0
     failed = 0
     for event in events:
-        task_id = str(event.payload.get("taskId") or "")
+        task_id = event.payload.get("taskId") or event.aggregate_id
         if not task_id:
             repository.mark_outbox_failed(
                 [event.id],
-                "ValueError: quality maintenance event has no taskId",
+                "Outbox event has no taskId or aggregate_id.",
             )
             failed += 1
             continue
+        task_id = str(task_id)
         try:
             schedule = schedule_quality_maintenance_task_once(
                 repository,
@@ -587,7 +596,15 @@ def dispatch_maintenance_work_events(
     dispatched = 0
     failed = 0
     for event in events:
-        work_item_id = str(event.payload.get("workItemId") or event.aggregate_id)
+        work_item_id = event.payload.get("workItemId") or event.aggregate_id
+        if not work_item_id:
+            repository.mark_outbox_failed(
+                [event.id],
+                "Outbox event has no workItemId or aggregate_id.",
+            )
+            failed += 1
+            continue
+        work_item_id = str(work_item_id)
         try:
             enqueue(work_item_id)
         except Exception as error:
@@ -950,7 +967,15 @@ def dispatch_governance_proposal_events(
     dispatched = 0
     failed = 0
     for event in events:
-        proposal_id = str(event.payload.get("proposalId") or event.aggregate_id)
+        proposal_id = event.payload.get("proposalId") or event.aggregate_id
+        if not proposal_id:
+            repository.mark_outbox_failed(
+                [event.id],
+                "Outbox event has no proposalId or aggregate_id.",
+            )
+            failed += 1
+            continue
+        proposal_id = str(proposal_id)
         try:
             enqueue(proposal_id)
         except Exception as error:
@@ -1101,7 +1126,15 @@ def dispatch_accepted_proposal_events(
     dispatched = 0
     failed = 0
     for event in events:
-        proposal_id = str(event.payload.get("proposalId") or event.aggregate_id)
+        proposal_id = event.payload.get("proposalId") or event.aggregate_id
+        if not proposal_id:
+            repository.mark_outbox_failed(
+                [event.id],
+                "Outbox event has no proposalId or aggregate_id.",
+            )
+            failed += 1
+            continue
+        proposal_id = str(proposal_id)
         try:
             enqueue(proposal_id)
         except Exception as error:
@@ -1203,7 +1236,15 @@ def dispatch_release_published_events(
     dispatched = 0
     failed = 0
     for event in events:
-        release_id = str(event.payload.get("releaseId") or event.aggregate_id)
+        release_id = event.payload.get("releaseId") or event.aggregate_id
+        if not release_id:
+            repository.mark_outbox_failed(
+                [event.id],
+                "Outbox event has no releaseId or aggregate_id.",
+            )
+            failed += 1
+            continue
+        release_id = str(release_id)
         try:
             enqueue(release_id)
         except Exception as error:
@@ -1561,7 +1602,15 @@ def dispatch_source_acquisition_events(
     dispatched = 0
     failed = 0
     for event in events:
-        job_id = str(event.payload.get("jobId") or event.aggregate_id)
+        job_id = event.payload.get("jobId") or event.aggregate_id
+        if not job_id:
+            repository.mark_outbox_failed(
+                [event.id],
+                "Outbox event has no jobId or aggregate_id.",
+            )
+            failed += 1
+            continue
+        job_id = str(job_id)
         try:
             enqueue(job_id)
         except Exception as error:
@@ -1590,17 +1639,37 @@ def dispatch_source_snapshot_events(
     failed = 0
     skipped = 0
     for event in events:
-        snapshot_id = str(event.payload.get("snapshotId") or event.aggregate_id)
+        snapshot_id = event.payload.get("snapshotId") or event.aggregate_id
+        if not snapshot_id:
+            repository.mark_outbox_failed(
+                [event.id],
+                "Source snapshot id missing.",
+            )
+            failed += 1
+            continue
+        snapshot_id = str(snapshot_id)
         snapshot = repository.get_source_snapshot(snapshot_id)
+        if snapshot is None:
+            repository.mark_outbox_failed(
+                [event.id],
+                "Source snapshot not found.",
+            )
+            failed += 1
+            continue
         source = (
             repository.get_source_definition(
                 snapshot.source_id,
                 version=snapshot.source_version,
             )
-            if snapshot
-            else None
         )
-        if source is not None and not (source.parser_id and source.parser_version):
+        if source is None:
+            repository.mark_outbox_failed(
+                [event.id],
+                "Source definition not found.",
+            )
+            failed += 1
+            continue
+        if not (source.parser_id and source.parser_version):
             repository.mark_outbox_published([event.id])
             skipped += 1
             continue
@@ -1635,7 +1704,15 @@ def dispatch_source_extraction_events(
     dispatched = 0
     failed = 0
     for event in events:
-        batch_id = str(event.payload.get("batchId") or event.aggregate_id)
+        batch_id = event.payload.get("batchId") or event.aggregate_id
+        if not batch_id:
+            repository.mark_outbox_failed(
+                [event.id],
+                "Outbox event has no batchId or aggregate_id.",
+            )
+            failed += 1
+            continue
+        batch_id = str(batch_id)
         try:
             enqueue(batch_id)
         except Exception as error:

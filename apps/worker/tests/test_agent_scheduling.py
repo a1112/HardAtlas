@@ -21,7 +21,11 @@ from hardatlas_domain import (
 )
 from hardatlas_ingestion import AcquisitionError, ParserRegistry
 from hardatlas_worker.tasks import (
+    dispatch_accepted_proposal_events,
     dispatch_agent_schedule_events,
+    dispatch_governance_proposal_events,
+    dispatch_maintenance_work_events,
+    dispatch_release_published_events,
     dispatch_source_acquisition_events,
     dispatch_source_extraction_events,
     dispatch_source_snapshot_events,
@@ -133,6 +137,437 @@ def test_outbox_dispatch_leaves_failed_enqueue_pending_for_retry() -> None:
 
     assert result == {"dispatched": 0, "failed": 1}
     assert local_repository.pending_outbox_ids(topic="agent.graph.scheduled")
+
+
+def test_outbox_dispatch_fails_when_schedule_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="agent.graph.scheduled",
+        aggregate_id="",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_agent_schedule_events(
+        local_repository,
+        lambda schedule_id: enqueued.append(schedule_id),
+    )
+
+    assert result == {"dispatched": 0, "failed": 1}
+    assert enqueued == []
+    assert local_repository.pending_outbox_ids(topic="agent.graph.scheduled")
+
+
+def test_outbox_dispatch_uses_aggregate_id_when_schedule_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="agent.graph.scheduled",
+        aggregate_id="schedule-fallback-id",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_agent_schedule_events(
+        local_repository,
+        lambda schedule_id: enqueued.append(schedule_id),
+    )
+
+    assert result == {"dispatched": 1, "failed": 0}
+    assert enqueued == ["schedule-fallback-id"]
+    assert local_repository.pending_outbox_ids(topic="agent.graph.scheduled") == []
+
+
+def test_maintenance_work_dispatch_fails_when_work_item_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="maintenance.work.requested",
+        aggregate_id="",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_maintenance_work_events(
+        local_repository,
+        lambda work_item_id: enqueued.append(work_item_id),
+    )
+
+    assert result == {"dispatched": 0, "failed": 1}
+    assert enqueued == []
+    assert local_repository.pending_outbox_ids(topic="maintenance.work.requested")
+
+
+def test_maintenance_work_dispatch_uses_aggregate_id_when_work_item_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="maintenance.work.requested",
+        aggregate_id="work-item-fallback-id",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_maintenance_work_events(
+        local_repository,
+        lambda work_item_id: enqueued.append(work_item_id),
+    )
+
+    assert result == {"dispatched": 1, "failed": 0}
+    assert enqueued == ["work-item-fallback-id"]
+    assert local_repository.pending_outbox_ids(topic="maintenance.work.requested") == []
+
+
+def test_governance_proposal_dispatch_fails_when_proposal_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="governance.proposal.created",
+        aggregate_id="",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_governance_proposal_events(
+        local_repository,
+        lambda proposal_id: enqueued.append(proposal_id),
+    )
+
+    assert result == {"dispatched": 0, "failed": 1}
+    assert enqueued == []
+    assert local_repository.pending_outbox_ids(topic="governance.proposal.created")
+
+
+def test_governance_proposal_dispatch_uses_aggregate_id_when_proposal_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="governance.proposal.created",
+        aggregate_id="proposal-fallback-id",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_governance_proposal_events(
+        local_repository,
+        lambda proposal_id: enqueued.append(proposal_id),
+    )
+
+    assert result == {"dispatched": 1, "failed": 0}
+    assert enqueued == ["proposal-fallback-id"]
+    assert local_repository.pending_outbox_ids(topic="governance.proposal.created") == []
+
+
+def test_accepted_proposal_dispatch_fails_when_proposal_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="governance.proposal.accepted",
+        aggregate_id="",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_accepted_proposal_events(
+        local_repository,
+        lambda proposal_id: enqueued.append(proposal_id),
+    )
+
+    assert result == {"dispatched": 0, "failed": 1}
+    assert enqueued == []
+    assert local_repository.pending_outbox_ids(topic="governance.proposal.accepted")
+
+
+def test_accepted_proposal_dispatch_uses_aggregate_id_when_proposal_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="governance.proposal.accepted",
+        aggregate_id="accepted-proposal-fallback-id",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_accepted_proposal_events(
+        local_repository,
+        lambda proposal_id: enqueued.append(proposal_id),
+    )
+
+    assert result == {"dispatched": 1, "failed": 0}
+    assert enqueued == ["accepted-proposal-fallback-id"]
+    assert local_repository.pending_outbox_ids(topic="governance.proposal.accepted") == []
+
+
+def test_release_dispatch_fails_when_release_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="release.published",
+        aggregate_id="",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_release_published_events(
+        local_repository,
+        lambda release_id: enqueued.append(release_id),
+    )
+
+    assert result == {"dispatched": 0, "failed": 1}
+    assert enqueued == []
+    assert local_repository.pending_outbox_ids(topic="release.published")
+
+
+def test_release_dispatch_uses_aggregate_id_when_release_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="release.published",
+        aggregate_id="release-fallback-id",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_release_published_events(
+        local_repository,
+        lambda release_id: enqueued.append(release_id),
+    )
+
+    assert result == {"dispatched": 1, "failed": 0}
+    assert enqueued == ["release-fallback-id"]
+    assert local_repository.pending_outbox_ids(topic="release.published") == []
+
+
+def test_source_snapshot_dispatch_fails_when_snapshot_missing() -> None:
+    local_repository = repository()
+    missing_snapshot_id = "snapshot-missing"
+    local_repository.requeue_outbox_event(
+        topic="source.snapshot.captured",
+        aggregate_id=missing_snapshot_id,
+        payload={"snapshotId": missing_snapshot_id},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_source_snapshot_events(
+        local_repository,
+        enqueued.append,
+    )
+
+    assert result == {"dispatched": 0, "failed": 1, "skipped": 0}
+    assert enqueued == []
+    assert local_repository.pending_outbox_ids(topic="source.snapshot.captured")
+
+
+def test_source_snapshot_dispatch_fails_when_snapshot_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="source.snapshot.captured",
+        aggregate_id="",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_source_snapshot_events(
+        local_repository,
+        enqueued.append,
+    )
+
+    assert result == {"dispatched": 0, "failed": 1, "skipped": 0}
+    assert enqueued == []
+    assert local_repository.pending_outbox_ids(topic="source.snapshot.captured")
+
+
+def test_source_snapshot_dispatch_uses_aggregate_id_when_snapshot_id_missing() -> None:
+    local_repository = repository()
+    registered_source = SourceDefinition(
+        id="source-snapshot-aggregate",
+        version="1.0.0",
+        name="Snapshot aggregate source",
+        kind="api",
+        base_url="https://knowledge.example.org/aggregate",
+        allowed_hosts=["knowledge.example.org"],
+        trust_tier="authoritative",
+        license_id="CC-BY-4.0",
+        license_status="allowed",
+        robots_policy="explicit-api",
+        robots_status="allowed",
+        allowed_media_types=["application/json"],
+        parser_id="parser-id",
+        parser_version="1.0.0",
+        status="active",
+    )
+    local_repository.save_source_definition(registered_source)
+    captured = SourceSnapshot(
+        id="snapshot-aggregate-id",
+        source_id=registered_source.id,
+        source_version=registered_source.version,
+        url=registered_source.base_url,
+        content_sha256="0" * 64,
+        storage_key="sources/aggregate/snapshot",
+        media_type="application/json",
+        byte_size=0,
+        http_status=200,
+        license_id=registered_source.license_id,
+        capture_status="captured",
+    )
+    local_repository.save_source_snapshot(captured)
+    local_repository.requeue_outbox_event(
+        topic="source.snapshot.captured",
+        aggregate_id=captured.id,
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_source_snapshot_events(
+        local_repository,
+        enqueued.append,
+    )
+
+    assert result == {"dispatched": 1, "failed": 0, "skipped": 0}
+    assert enqueued == [captured.id]
+    assert local_repository.pending_outbox_ids(topic="source.snapshot.captured") == []
+
+
+def test_source_acquisition_dispatch_fails_when_job_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="source.acquisition.requested",
+        aggregate_id="",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_source_acquisition_events(
+        local_repository,
+        enqueued.append,
+    )
+
+    assert result == {"dispatched": 0, "failed": 1}
+    assert enqueued == []
+    assert local_repository.pending_outbox_ids(topic="source.acquisition.requested")
+
+
+def test_source_acquisition_dispatch_uses_aggregate_id_when_job_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="source.acquisition.requested",
+        aggregate_id="job-fallback-id",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_source_acquisition_events(
+        local_repository,
+        enqueued.append,
+    )
+
+    assert result == {"dispatched": 1, "failed": 0}
+    assert enqueued == ["job-fallback-id"]
+    assert local_repository.pending_outbox_ids(topic="source.acquisition.requested") == []
+
+
+def test_source_extraction_dispatch_fails_when_batch_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="source.extraction.completed",
+        aggregate_id="",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_source_extraction_events(
+        local_repository,
+        enqueued.append,
+    )
+
+    assert result == {"dispatched": 0, "failed": 1}
+    assert enqueued == []
+    assert local_repository.pending_outbox_ids(topic="source.extraction.completed")
+
+
+def test_source_extraction_dispatch_uses_aggregate_id_when_batch_id_missing() -> None:
+    local_repository = repository()
+    local_repository.requeue_outbox_event(
+        topic="source.extraction.completed",
+        aggregate_id="batch-fallback-id",
+        payload={},
+    )
+    enqueued: list[str] = []
+
+    result = dispatch_source_extraction_events(
+        local_repository,
+        enqueued.append,
+    )
+
+    assert result == {"dispatched": 1, "failed": 0}
+    assert enqueued == ["batch-fallback-id"]
+    assert local_repository.pending_outbox_ids(topic="source.extraction.completed") == []
+
+
+def test_source_snapshot_dispatch_fails_when_source_definition_missing() -> None:
+    local_repository = repository()
+    content = b'{"items":[]}'
+    digest = hashlib.sha256(content).hexdigest()
+    missing_source_id = "source-missing"
+    captured = SourceSnapshot(
+        id="snapshot-missing-source",
+        source_id=missing_source_id,
+        source_version="1.0.0",
+        url="https://knowledge.example.org/missing",
+        content_sha256=digest,
+        storage_key="sources/missing/snapshot",
+        media_type="application/json",
+        byte_size=len(content),
+        http_status=200,
+        license_id="CC-BY-4.0",
+        capture_status="captured",
+    )
+    local_repository.save_source_snapshot(captured)
+    enqueued: list[str] = []
+
+    result = dispatch_source_snapshot_events(
+        local_repository,
+        enqueued.append,
+    )
+
+    assert result == {"dispatched": 0, "failed": 1, "skipped": 0}
+    assert enqueued == []
+    assert local_repository.pending_outbox_ids(topic="source.snapshot.captured")
+
+
+def test_source_snapshot_dispatch_skips_when_parser_not_configured() -> None:
+    local_repository = repository()
+    source_without_parser = SourceDefinition(
+        id="source-without-parser",
+        version="1.0.0",
+        name="No parser source",
+        kind="api",
+        base_url="https://knowledge.example.org/empty",
+        allowed_hosts=["knowledge.example.org"],
+        trust_tier="authoritative",
+        license_id="CC-BY-4.0",
+        license_status="allowed",
+        robots_policy="explicit-api",
+        robots_status="allowed",
+        allowed_media_types=["application/json"],
+        status="active",
+    )
+    local_repository.save_source_definition(source_without_parser)
+    captured = SourceSnapshot(
+        id="snapshot-no-parser",
+        source_id=source_without_parser.id,
+        source_version=source_without_parser.version,
+        url=source_without_parser.base_url,
+        content_sha256="0" * 64,
+        storage_key="sources/no-parser/snapshot",
+        media_type="application/json",
+        byte_size=0,
+        http_status=200,
+        license_id=source_without_parser.license_id,
+        capture_status="captured",
+    )
+    local_repository.save_source_snapshot(captured)
+    enqueued: list[str] = []
+
+    result = dispatch_source_snapshot_events(
+        local_repository,
+        enqueued.append,
+    )
+
+    assert result == {"dispatched": 0, "failed": 0, "skipped": 1}
+    assert enqueued == []
+    assert local_repository.pending_outbox_ids(topic="source.snapshot.captured") == []
 
 
 def test_snapshot_extraction_schedules_governed_agent_proposals() -> None:

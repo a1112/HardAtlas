@@ -21,20 +21,20 @@ from hardatlas_domain import (
     EntityRef,
     GovernanceService,
     KnowledgeEntity,
-    SourceAcquisitionJob,
-    SourceDefinition,
     Relationship,
     RevisionContext,
+    SourceAcquisitionJob,
+    SourceDefinition,
     SourceSnapshot,
 )
 from hardatlas_ingestion import AcquisitionError
 from hardatlas_worker.tasks import (
-    dispatch_quality_maintenance_events,
     dispatch_maintenance_work_events,
+    dispatch_quality_maintenance_events,
     dispatch_source_acquisition_events,
     evaluate_governed_proposal_once,
-    execute_source_acquisition_once,
     execute_agent_schedule_once,
+    execute_source_acquisition_once,
     request_source_acquisition_for_work_once,
     schedule_quality_maintenance_task_once,
 )
@@ -237,7 +237,11 @@ def test_agent_pack_paths_support_glob_input() -> None:
 def test_agent_pack_paths_support_absolute_directory_input() -> None:
     local_client = api_client(
         repository=isolated_repository(),
-        settings=Settings(agent_pack_paths=str(Path(__file__).resolve().parents[3] / "agent-packs" / "core")),
+        settings=Settings(
+            agent_pack_paths=str(
+                Path(__file__).resolve().parents[3] / "agent-packs" / "core"
+            )
+        ),
     )
     assert local_client.app.state.agent_registry.graphs
 
@@ -247,7 +251,9 @@ def test_agent_pack_path_misconfiguration_reports_resolved_path() -> None:
         create_app(
             isolated_repository(),
             settings=Settings(
-                agent_pack_paths=f"{Path(__file__).resolve().parents[3] / 'agent-packs' / 'missing'}",
+                agent_pack_paths=(
+                    f"{Path(__file__).resolve().parents[3] / 'agent-packs' / 'missing'}"
+                ),
             ),
         )
     except ValueError as error:
@@ -958,7 +964,11 @@ def test_source_registration_rejects_unsafe_base_urls() -> None:
         "status": "active",
     }
     invalid_cases = [
-        ("https://user:secret@knowledge.example.org/species", "credentials", "knowledge.example.org"),
+        (
+            "https://user:secret@knowledge.example.org/species",
+            "credentials",
+            "knowledge.example.org",
+        ),
         ("https://knowledge.example.org/species?search=true", "query", "knowledge.example.org"),
         ("https://knowledge.example.org/species#section", "fragment", "knowledge.example.org"),
         ("http://127.0.0.1/species", "host is blocked", "127.0.0.1"),

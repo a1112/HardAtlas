@@ -1,6 +1,6 @@
 import asyncio
-import hashlib
 import glob
+import hashlib
 import json
 from collections.abc import AsyncIterator
 from datetime import UTC, datetime
@@ -119,9 +119,9 @@ from hardatlas_domain import (
 from hardatlas_ingestion import (
     AcquisitionError,
     ExtractionError,
-    validate_acquisition_url,
     ParserRegistry,
     load_parser_registry,
+    validate_acquisition_url,
 )
 from hardatlas_rules import CompatibilityRule, Predicate, RuleEngine
 from pydantic import BaseModel, ConfigDict, Field
