@@ -28,7 +28,7 @@ interface AuditStatus {
   latestHash?: string;
 }
 
-const apiUrl = "/api/backend";
+const apiUrl = "/apps/hardatlas-admin/api/backend";
 
 export function AuditLog() {
   const [events, setEvents] = useState<AuditEvent[]>([]);

@@ -69,7 +69,7 @@ interface OperationsSummary {
   latestRelease?: ReleaseManifest;
 }
 
-const apiUrl = "/api/backend";
+const apiUrl = "/apps/hardatlas-admin/api/backend";
 
 const statusNames: Record<string, string> = {
   proposed: "待策略评估",

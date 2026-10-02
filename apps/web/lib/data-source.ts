@@ -301,7 +301,7 @@ const resolvedWebOrigin =
 // Browser callers (and same-host server contexts when web origin available) use
 // the web BFF so auth/session headers and tracing stay consistent.
 const apiBase = isBrowser
-  ? "/api/backend"
+  ? "/apps/hardatlas/api/backend"
   : resolvedWebOrigin
     ? `${resolvedWebOrigin.replace(/\/$/, "")}/api/backend`
     : (process.env.HARDATLAS_API_URL ??

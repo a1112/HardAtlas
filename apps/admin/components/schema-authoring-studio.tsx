@@ -72,7 +72,7 @@ interface DraftIssue {
   message: string;
 }
 
-const apiUrl = "/api/backend";
+const apiUrl = "/apps/hardatlas-admin/api/backend";
 
 function label(text: LocalizedText[]) {
   return text.find((item) => item.locale === "zh-CN")?.value ?? text[0]?.value;

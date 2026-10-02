@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
       { status: 400 },
     );
   }
-  const callback = new URL("/api/auth/callback", request.url);
+  const callback = new URL("/apps/hardatlas/api/auth/callback", (process.env.HARDATLAS_PUBLIC_ORIGIN ?? request.url));
   const tokens = await exchangeToken(
     new URLSearchParams({
       grant_type: "authorization_code",
@@ -37,8 +37,8 @@ export async function GET(request: NextRequest) {
       redirect_uri: callback.toString(),
     }),
   );
-  const returnTo = request.cookies.get(RETURN_COOKIE)?.value ?? "/";
-  const response = NextResponse.redirect(new URL(returnTo, request.url));
+  const returnTo = request.cookies.get(RETURN_COOKIE)?.value ?? "/apps/hardatlas/";
+  const response = NextResponse.redirect(new URL(returnTo, (process.env.HARDATLAS_PUBLIC_ORIGIN ?? request.url)));
   response.cookies.set(
     ACCESS_COOKIE,
     tokens.access_token,

@@ -59,7 +59,7 @@ interface JobProgressEvent {
   error?: string | null;
 }
 
-const apiUrl = "/api/backend";
+const apiUrl = "/apps/hardatlas-admin/api/backend";
 
 interface AgentDefinition {
   id: string;

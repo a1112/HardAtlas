@@ -47,7 +47,7 @@ interface ReleaseManifest {
   rolledBackAt?: string;
 }
 
-const apiUrl = "/api/backend";
+const apiUrl = "/apps/hardatlas-admin/api/backend";
 
 export function ReleaseWorkbench() {
   const [proposals, setProposals] = useState<GovernedProposal[]>([]);

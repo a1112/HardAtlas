@@ -131,7 +131,7 @@ interface GovernedProposal {
   };
 }
 
-const apiUrl = "/api/backend";
+const apiUrl = "/apps/hardatlas-admin/api/backend";
 const currentTypeTarget = "$current-pack-type";
 
 function keyOf(value: string) {

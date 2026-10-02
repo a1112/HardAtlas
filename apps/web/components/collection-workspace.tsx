@@ -34,7 +34,7 @@ export function CollectionWorkspace() {
 
   async function loadCollections(preferredId?: string) {
     const result = await request<SavedCollection[]>(
-      "/api/backend/api/v1/collections",
+      "/apps/hardatlas/api/backend/api/v1/collections",
     );
     setCollections(result);
     const target =
@@ -57,7 +57,7 @@ export function CollectionWorkspace() {
     async function load() {
       try {
         const session = await request<{ authenticated: boolean }>(
-          "/api/auth/session",
+          "/apps/hardatlas/api/auth/session",
         );
         setAuthenticated(session.authenticated);
         if (session.authenticated) await loadCollections();
@@ -88,7 +88,7 @@ export function CollectionWorkspace() {
     if (!name.trim()) return;
     try {
       const created = await request<SavedCollection>(
-        "/api/backend/api/v1/collections",
+        "/apps/hardatlas/api/backend/api/v1/collections",
         {
           method: "POST",
           body: JSON.stringify({ name: name.trim(), description: "" }),
@@ -127,7 +127,7 @@ export function CollectionWorkspace() {
         <span>
           收藏会固定数据版本与修订号，不会因公开条目更新而失去上下文。
         </span>
-        <a href="/api/auth/login?returnTo=/collections">登录并进入个人空间</a>
+        <a href="/apps/hardatlas/api/auth/login?returnTo=/apps/hardatlas/collections">登录并进入个人空间</a>
       </section>
     );
   }

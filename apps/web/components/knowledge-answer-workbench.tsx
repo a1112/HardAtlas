@@ -30,7 +30,7 @@ export function KnowledgeAnswerWorkbench({
       setError("");
       setAnswer(undefined);
       try {
-        const response = await fetch("/api/backend/answers", {
+        const response = await fetch("/apps/hardatlas/api/backend/answers", {
           method: "POST",
           headers: {
             accept: "application/json",

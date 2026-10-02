@@ -134,7 +134,7 @@ interface AuthoringDraftRecord {
   updatedAt: string;
 }
 
-const apiUrl = "/api/backend";
+const apiUrl = "/apps/hardatlas-admin/api/backend";
 
 function label(values: LocalizedText[]) {
   return (

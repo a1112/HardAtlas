@@ -100,7 +100,7 @@ interface SourceParser {
   entityTypeId: string;
 }
 
-const apiUrl = "/api/backend";
+const apiUrl = "/apps/hardatlas-admin/api/backend";
 
 export function SourceRegistry() {
   const [records, setRecords] = useState<SourceRecord[]>([]);

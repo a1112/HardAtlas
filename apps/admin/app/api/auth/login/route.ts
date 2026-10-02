@@ -16,15 +16,15 @@ function base64Url(value: Buffer) {
 
 export async function GET(request: NextRequest) {
   if (authMode() === "development") {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/apps/hardatlas-admin/", (process.env.HARDATLAS_PUBLIC_ORIGIN ?? request.url)));
   }
   const metadata = await discovery();
   const verifier = base64Url(randomBytes(48));
   const challenge = base64Url(createHash("sha256").update(verifier).digest());
   const state = base64Url(randomBytes(32));
-  const callback = new URL("/api/auth/callback", request.url);
-  const returnTo = request.nextUrl.searchParams.get("returnTo") ?? "/";
-  const safeReturnTo = returnTo.startsWith("/") ? returnTo : "/";
+  const callback = new URL("/apps/hardatlas-admin/api/auth/callback", (process.env.HARDATLAS_PUBLIC_ORIGIN ?? request.url));
+  const returnTo = request.nextUrl.searchParams.get("returnTo") ?? "/apps/hardatlas-admin/";
+  const safeReturnTo = returnTo.startsWith("/apps/hardatlas-admin/") ? returnTo : "/apps/hardatlas-admin/";
   const authorization = new URL(metadata.authorization_endpoint);
   authorization.search = new URLSearchParams({
     response_type: "code",

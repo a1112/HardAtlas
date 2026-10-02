@@ -16,18 +16,18 @@ function base64Url(value: Buffer) {
 
 export async function GET(request: NextRequest) {
   if (authMode() === "development") {
-    const returnTo = request.nextUrl.searchParams.get("returnTo") ?? "/";
+    const returnTo = request.nextUrl.searchParams.get("returnTo") ?? "/apps/hardatlas/";
     return NextResponse.redirect(
-      new URL(returnTo.startsWith("/") ? returnTo : "/", request.url),
+      new URL(returnTo.startsWith("/apps/hardatlas/") ? returnTo : "/apps/hardatlas/", (process.env.HARDATLAS_PUBLIC_ORIGIN ?? request.url)),
     );
   }
   const metadata = await discovery();
   const verifier = base64Url(randomBytes(48));
   const challenge = base64Url(createHash("sha256").update(verifier).digest());
   const state = base64Url(randomBytes(32));
-  const callback = new URL("/api/auth/callback", request.url);
-  const returnTo = request.nextUrl.searchParams.get("returnTo") ?? "/";
-  const safeReturnTo = returnTo.startsWith("/") ? returnTo : "/";
+  const callback = new URL("/apps/hardatlas/api/auth/callback", (process.env.HARDATLAS_PUBLIC_ORIGIN ?? request.url));
+  const returnTo = request.nextUrl.searchParams.get("returnTo") ?? "/apps/hardatlas/";
+  const safeReturnTo = returnTo.startsWith("/apps/hardatlas/") ? returnTo : "/apps/hardatlas/";
   const authorization = new URL(metadata.authorization_endpoint);
   authorization.search = new URLSearchParams({
     response_type: "code",

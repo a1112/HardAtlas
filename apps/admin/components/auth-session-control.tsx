@@ -11,7 +11,7 @@ export function AuthSessionControl() {
   const [session, setSession] = useState<SessionState>();
 
   useEffect(() => {
-    void fetch("/api/auth/session", { cache: "no-store" })
+    void fetch("/apps/hardatlas-admin/api/auth/session", { cache: "no-store" })
       .then((response) => response.json() as Promise<SessionState>)
       .then(setSession);
   }, []);
@@ -19,7 +19,7 @@ export function AuthSessionControl() {
   if (!session) return <span className="auth-session">身份检查中…</span>;
   if (!session.authenticated) {
     return (
-      <a className="auth-login" href="/api/auth/login">
+      <a className="auth-login" href="/apps/hardatlas-admin/api/auth/login">
         使用 OIDC 登录
       </a>
     );
@@ -28,7 +28,7 @@ export function AuthSessionControl() {
     return <span className="auth-session">本地开发身份 · admin</span>;
   }
   return (
-    <form action="/api/auth/logout" method="post">
+    <form action="/apps/hardatlas-admin/api/auth/logout" method="post">
       <button className="secondary" type="submit">
         退出登录
       </button>

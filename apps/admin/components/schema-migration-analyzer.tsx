@@ -84,10 +84,10 @@ export function SchemaMigrationAnalyzer() {
 
   useEffect(() => {
     void Promise.all([
-      adminFetch("/api/backend/api/v1/schema-registry", {
+      adminFetch("/apps/hardatlas-admin/api/backend/api/v1/schema-registry", {
         cache: "no-store",
       }),
-      adminFetch("/api/backend/api/v1/schema-migrations", {
+      adminFetch("/apps/hardatlas-admin/api/backend/api/v1/schema-migrations", {
         cache: "no-store",
       }),
     ])
@@ -126,7 +126,7 @@ export function SchemaMigrationAnalyzer() {
     try {
       const proposedDocument = JSON.parse(document) as Record<string, unknown>;
       const response = await adminFetch(
-        "/api/backend/api/v1/schema-changes/analyze",
+        "/apps/hardatlas-admin/api/backend/api/v1/schema-changes/analyze",
         {
           method: "POST",
           headers: { "content-type": "application/json" },
@@ -183,7 +183,7 @@ export function SchemaMigrationAnalyzer() {
     try {
       const suffix = Date.now();
       const response = await adminFetch(
-        "/api/backend/api/v1/schema-migrations",
+        "/apps/hardatlas-admin/api/backend/api/v1/schema-migrations",
         {
           method: "POST",
           headers: { "content-type": "application/json" },

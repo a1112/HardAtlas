@@ -54,7 +54,7 @@ interface GovernedProposal {
   supersededAt?: string;
 }
 
-const apiUrl = "/api/backend";
+const apiUrl = "/apps/hardatlas-admin/api/backend";
 const developmentAuth =
   (process.env.NEXT_PUBLIC_HARDATLAS_AUTH_MODE ?? "development") ===
   "development";

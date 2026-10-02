@@ -55,7 +55,7 @@ interface ProposalQueueResponse {
   statusCounts: Record<string, number>;
 }
 
-const apiUrl = "/api/backend";
+const apiUrl = "/apps/hardatlas-admin/api/backend";
 const pageSize = 20;
 const developmentAuth =
   (process.env.NEXT_PUBLIC_HARDATLAS_AUTH_MODE ?? "development") ===

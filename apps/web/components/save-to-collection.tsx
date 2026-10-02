@@ -50,11 +50,11 @@ export function SaveToCollection({
     async function load() {
       try {
         const session = await jsonRequest<{ authenticated: boolean }>(
-          "/api/auth/session",
+          "/apps/hardatlas/api/auth/session",
         );
         if (!session.authenticated || !active) return;
         const result = await jsonRequest<SavedCollection[]>(
-          "/api/backend/api/v1/collections",
+          "/apps/hardatlas/api/backend/api/v1/collections",
         );
         if (!active) return;
         setCollections(result);
@@ -87,7 +87,7 @@ export function SaveToCollection({
     setBusy(true);
     try {
       const session = await jsonRequest<{ authenticated: boolean }>(
-        "/api/auth/session",
+        "/apps/hardatlas/api/auth/session",
       );
       if (!session.authenticated) {
         window.location.href = `/api/auth/login?returnTo=${encodeURIComponent(
@@ -98,7 +98,7 @@ export function SaveToCollection({
       let collectionId = selectedId;
       if (!collectionId) {
         const created = await jsonRequest<SavedCollection>(
-          "/api/backend/api/v1/collections",
+          "/apps/hardatlas/api/backend/api/v1/collections",
           {
             method: "POST",
             body: JSON.stringify({

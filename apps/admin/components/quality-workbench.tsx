@@ -128,7 +128,7 @@ interface ScanResult {
   completedAt: string;
 }
 
-const apiUrl = "/api/backend";
+const apiUrl = "/apps/hardatlas-admin/api/backend";
 const assessmentPageSize = 20;
 const taskPageSize = 18;
 
