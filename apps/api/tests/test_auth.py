@@ -2,10 +2,12 @@ from datetime import UTC, datetime, timedelta
 from uuid import UUID
 
 import jwt
+import pytest
 from cryptography.hazmat.primitives.asymmetric import rsa
+from fastapi import Request
 from fastapi.testclient import TestClient
 from hardatlas_api import create_app
-from hardatlas_api.auth import ApiAuthenticator
+from hardatlas_api.auth import ApiAuthenticator, AuthenticationError
 from hardatlas_api.config import Settings
 from hardatlas_data import KnowledgeRepository
 from sqlalchemy import create_engine
@@ -184,3 +186,56 @@ def test_development_authentication_cannot_start_in_production() -> None:
         assert "forbidden in production" in str(error)
     else:
         raise AssertionError("production accepted development authentication")
+
+
+@pytest.mark.parametrize("kind", ["malformed", "expired", "wrong_algorithm", "bad_signature"])
+def test_oidc_rejects_invalid_tokens_without_fetching_keys(kind: str) -> None:
+    private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+    settings = Settings(
+        _env_file=None,
+        environment="test",
+        auth_mode="oidc",
+        oidc_issuer="https://identity.example.org",
+        oidc_audience="hardatlas-api",
+        oidc_algorithms="RS256",
+        oidc_clock_skew_seconds=0,
+    )
+    authenticator = ApiAuthenticator(
+        settings, signing_key_resolver=lambda _: private_key.public_key()
+    )
+    now = datetime.now(UTC)
+    claims = {
+        "sub": "oidc-user-001",
+        "iss": settings.oidc_issuer,
+        "aud": settings.oidc_audience,
+        "iat": now - timedelta(minutes=1),
+        "exp": now + timedelta(minutes=5),
+    }
+    if kind == "malformed":
+        token = "not-a-token"
+    elif kind == "wrong_algorithm":
+        token = jwt.encode(claims, "test-only-hmac-key-" + "x" * 32, algorithm="HS256")
+    else:
+        if kind == "expired":
+            claims["exp"] = now - timedelta(seconds=1)
+        signing_key = (
+            rsa.generate_private_key(public_exponent=65537, key_size=2048)
+            if kind == "bad_signature"
+            else private_key
+        )
+        token = jwt.encode(claims, signing_key, algorithm="RS256")
+    request = Request(
+        {"type": "http", "headers": [(b"authorization", f"Bearer {token}".encode())]}
+    )
+
+    with pytest.raises(AuthenticationError) as denied:
+        authenticator.authenticate(request)
+
+    assert denied.value.status_code == 401
+
+
+@pytest.mark.parametrize("separator", [b"\r", b" "])
+def test_pyjwt_rejects_mutated_pem_as_hmac_secret(separator: bytes) -> None:
+    key = separator.join([b"-----BEGIN PUBLIC KEY-----", b"YWJj", b"-----END PUBLIC KEY-----"])
+    with pytest.raises(jwt.InvalidKeyError):
+        jwt.algorithms.HMACAlgorithm(jwt.algorithms.HMACAlgorithm.SHA256).prepare_key(key)
