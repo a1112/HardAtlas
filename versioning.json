@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "notes": "Source package numbers are preserved. A numeric source version does not claim a released/stable product. See VERSIONING.md for release history, native release owners and limitations.",
+  "units": {
+    "rust-workspace": {
+      "canonical": {
+        "path": "Cargo.toml",
+        "adapter": "toml",
+        "table": [
+          "workspace",
+          "package"
+        ],
+        "key": "version",
+        "format": "semver"
+      },
+      "mirrors": [
+        {
+          "path": "Cargo.lock",
+          "adapter": "cargo-lock",
+          "package": "hardatlas-desktop",
+          "format": "semver"
+        },
+        {
+          "path": "Cargo.lock",
+          "adapter": "cargo-lock",
+          "package": "scanner-core",
+          "format": "semver"
+        },
+        {
+          "path": "Cargo.lock",
+          "adapter": "cargo-lock",
+          "package": "scanner-windows",
+          "format": "semver"
+        },
+        {
+          "path": "apps/desktop/src-tauri/tauri.conf.json",
+          "adapter": "json",
+          "pointer": "/version",
+          "format": "semver"
+        },
+        {
+          "path": "apps/desktop/package.json",
+          "adapter": "json",
+          "pointer": "/version",
+          "format": "semver"
+        }
+      ],
+      "assertions": [
+        {
+          "path": "apps/desktop/src-tauri/Cargo.toml",
+          "adapter": "toml",
+          "table": [
+            "package",
+            "version"
+          ],
+          "key": "workspace",
+          "equals": true
+        },
+        {
+          "path": "crates/scanner-core/Cargo.toml",
+          "adapter": "toml",
+          "table": [
+            "package",
+            "version"
+          ],
+          "key": "workspace",
+          "equals": true
+        },
+        {
+          "path": "crates/scanner-windows/Cargo.toml",
+          "adapter": "toml",
+          "table": [
+            "package",
+            "version"
+          ],
+          "key": "workspace",
+          "equals": true
+        }
+      ],
+      "notes": "Rust workspace package version; inherited crate declarations remain source bindings Tauri application packaging version is synchronized with its own Cargo package."
+    },
+    "node-apps-admin": {
+      "canonical": {
+        "path": "apps/admin/package.json",
+        "adapter": "json",
+        "pointer": "/version",
+        "format": "semver"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Node package version; independent unless explicitly coupled by the application package below."
+    },
+    "node-apps-web": {
+      "canonical": {
+        "path": "apps/web/package.json",
+        "adapter": "json",
+        "pointer": "/version",
+        "format": "semver"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Node package version; independent unless explicitly coupled by the application package below."
+    },
+    "node-packages-ts-api-client": {
+      "canonical": {
+        "path": "packages/ts/api-client/package.json",
+        "adapter": "json",
+        "pointer": "/version",
+        "format": "semver"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Node package version; independent unless explicitly coupled by the application package below."
+    },
+    "node-packages-ts-contracts": {
+      "canonical": {
+        "path": "packages/ts/contracts/package.json",
+        "adapter": "json",
+        "pointer": "/version",
+        "format": "semver"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Node package version; independent unless explicitly coupled by the application package below."
+    },
+    "node-packages-ts-design-tokens": {
+      "canonical": {
+        "path": "packages/ts/design-tokens/package.json",
+        "adapter": "json",
+        "pointer": "/version",
+        "format": "semver"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Node package version; independent unless explicitly coupled by the application package below."
+    },
+    "node-packages-ts-ui": {
+      "canonical": {
+        "path": "packages/ts/ui/package.json",
+        "adapter": "json",
+        "pointer": "/version",
+        "format": "semver"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Node package version; independent unless explicitly coupled by the application package below."
+    },
+    "python-apps-api": {
+      "canonical": {
+        "path": "apps/api/pyproject.toml",
+        "adapter": "toml",
+        "table": [
+          "project"
+        ],
+        "key": "version",
+        "format": "pep440"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Independent Python distribution; native package tooling owns uv.lock and workspace constraints.",
+      "read_only": true
+    },
+    "python-apps-worker": {
+      "canonical": {
+        "path": "apps/worker/pyproject.toml",
+        "adapter": "toml",
+        "table": [
+          "project"
+        ],
+        "key": "version",
+        "format": "pep440"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Independent Python distribution; native package tooling owns uv.lock and workspace constraints.",
+      "read_only": true
+    },
+    "python-packages-py-ai": {
+      "canonical": {
+        "path": "packages/py/ai/pyproject.toml",
+        "adapter": "toml",
+        "table": [
+          "project"
+        ],
+        "key": "version",
+        "format": "pep440"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Independent Python distribution; native package tooling owns uv.lock and workspace constraints.",
+      "read_only": true
+    },
+    "python-packages-py-data": {
+      "canonical": {
+        "path": "packages/py/data/pyproject.toml",
+        "adapter": "toml",
+        "table": [
+          "project"
+        ],
+        "key": "version",
+        "format": "pep440"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Independent Python distribution; native package tooling owns uv.lock and workspace constraints.",
+      "read_only": true
+    },
+    "python-packages-py-domain": {
+      "canonical": {
+        "path": "packages/py/domain/pyproject.toml",
+        "adapter": "toml",
+        "table": [
+          "project"
+        ],
+        "key": "version",
+        "format": "pep440"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Independent Python distribution; native package tooling owns uv.lock and workspace constraints.",
+      "read_only": true
+    },
+    "python-packages-py-ingestion": {
+      "canonical": {
+        "path": "packages/py/ingestion/pyproject.toml",
+        "adapter": "toml",
+        "table": [
+          "project"
+        ],
+        "key": "version",
+        "format": "pep440"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Independent Python distribution; native package tooling owns uv.lock and workspace constraints.",
+      "read_only": true
+    },
+    "python-packages-py-rules": {
+      "canonical": {
+        "path": "packages/py/rules/pyproject.toml",
+        "adapter": "toml",
+        "table": [
+          "project"
+        ],
+        "key": "version",
+        "format": "pep440"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Independent Python distribution; native package tooling owns uv.lock and workspace constraints.",
+      "read_only": true
+    },
+    "python-root": {
+      "canonical": {
+        "path": "pyproject.toml",
+        "adapter": "toml",
+        "table": [
+          "project"
+        ],
+        "key": "version",
+        "format": "pep440"
+      },
+      "mirrors": [],
+      "assertions": [],
+      "notes": "Independent Python distribution; native package tooling owns uv.lock and workspace constraints.",
+      "read_only": true
+    }
+  },
+  "unmanaged": [
+    {
+      "name": "package.json",
+      "reason": "Unversioned private workspace/frontend tooling; no fabricated product version.",
+      "paths": [
+        "package.json"
+      ]
+    },
+    {
+      "name": "non-product versions",
+      "reason": "Dependency/toolchain/Swift tools/SDK, protocol, schema, database and generated/upstream versions are not application release versions.",
+      "paths": []
+    },
+    {
+      "name": "historical sources",
+      "reason": "Vendored code, generated Apple projects, docs/evidence and junk snapshots retain their original versions and are excluded from bump operations.",
+      "paths": []
+    }
+  ]
+}
