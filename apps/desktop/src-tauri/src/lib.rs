@@ -1,3 +1,5 @@
+mod window_geometry;
+mod window_placement;
 use rusqlite::{params, Connection};
 use scanner_core::{redact_snapshot, ScanSnapshot};
 use serde::{Deserialize, Serialize};
@@ -235,6 +237,10 @@ fn start_safe_scan() -> String {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .setup(|app| {
+            window_placement::install(app, "main", (1100.0, 740.0), (820.0, 560.0), true);
+            Ok(())
+        })
         .invoke_handler(tauri::generate_handler![
             desktop_status,
             cache_entity,
