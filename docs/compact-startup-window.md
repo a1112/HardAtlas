@@ -1,0 +1,15 @@
+# Compact startup window
+
+The main window default changes from 1440 × 960 to 1100 × 740 logical pixels; nominal minimum 820 × 560. It starts hidden, fits to the monitor work area, then shows without forced maximization or fullscreen. 
+
+Fresh geometry is capped at 80% of the available work area, with 16 logical pixels reserved at desktop edges and native frame space included. The effective minimum decreases on smaller screens. Valid saved geometry can remain larger than the default and can touch work-area edges; only out-of-bounds geometry is moved or reduced. Monitor selection uses overlap, including negative desktop coordinates, and falls back to the primary display when a saved monitor is disconnected. Scale changes reconcile the normal frame against the current work area.
+
+Normal geometry is saved in app_config_dir/window-geometry-main-v1.txt, using physical desktop positions and logical content dimensions. Minimized, fullscreen and maximized frames never replace the saved normal geometry. A temporary file plus rename prevents a partial write from replacing the last valid state.
+
+Source: `apps/desktop/src-tauri/src/window_geometry.rs` and `window_placement.rs`, installed from the desktop setup callback. No new framework or dependency is introduced.
+
+Verification: the six geometry tests cover small/Retina screens, a valid larger saved window, negative monitor coordinates and display removal, edge/work-area-sized saved geometry, invalid saved values, and smaller saved geometry on a larger display. The helper is also compiled against Tauri's real API. Full application Cargo checks are recorded in the task report. Actual native window interaction and Windows/Linux appearance have not been visually verified in this task.
+
+Mobile builds retain the original visible window configuration through Android/iOS platform overrides. Desktop geometry modules and setup are excluded on mobile. Mobile devices were not tested.
+
+Merge review also repairs CI bootstrap: setup-node runs before Corepack enables pnpm, so requesting its pnpm cache at that point fails with “Unable to locate executable file: pnpm”. Remove that premature cache lookup; the existing pinned Corepack dependency install and all verification steps remain in place.
