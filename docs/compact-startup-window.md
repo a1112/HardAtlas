@@ -11,3 +11,5 @@ Source: `apps/desktop/src-tauri/src/window_geometry.rs` and `window_placement.rs
 Verification: the six geometry tests cover small/Retina screens, a valid larger saved window, negative monitor coordinates and display removal, edge/work-area-sized saved geometry, invalid saved values, and smaller saved geometry on a larger display. The helper is also compiled against Tauri's real API. Full application Cargo checks are recorded in the task report. Actual native window interaction and Windows/Linux appearance have not been visually verified in this task.
 
 Mobile builds retain the original visible window configuration through Android/iOS platform overrides. Desktop geometry modules and setup are excluded on mobile. Mobile devices were not tested.
+
+Merge review also repairs CI bootstrap: setup-node runs before Corepack enables pnpm, so requesting its pnpm cache at that point fails with “Unable to locate executable file: pnpm”. Remove that premature cache lookup; the existing pinned Corepack dependency install and all verification steps remain in place.
