@@ -49,6 +49,9 @@ fn snapshot(window: &WebviewWindow) -> Option<Placement> {
 }
 fn read(path: &Path) -> Option<Placement> {
     let text = fs::read_to_string(path).ok()?;
+    parse(&text)
+}
+fn parse(text: &str) -> Option<Placement> {
     let values: Vec<f64> = text
         .split_whitespace()
         .map(str::parse)
@@ -80,6 +83,12 @@ fn read(path: &Path) -> Option<Placement> {
         None
     };
     Some(Placement { geometry: g, outer })
+}
+fn restore_record(path: &Path, label: &str, cached: Option<&str>) -> Option<Placement> {
+    cached
+        .and_then(parse)
+        .or_else(|| read(path))
+        .or_else(|| read(&path.with_file_name(format!("window-geometry-{label}-v1.txt"))))
 }
 fn publish(window: &WebviewWindow, writer: &GeometryWriter) {
     if let Some(saved) = snapshot(window) {
@@ -202,23 +211,17 @@ pub fn install(
         .app_config_dir()
         .ok()
         .map(|base| base.join(format!("window-geometry-{label}-v2.txt")));
+    let cached = app
+        .try_state::<Writers>()
+        .and_then(|writers| geometry_writer::cached_record(&writers.0, label));
     apply(
         &window,
-        path.as_ref().and_then(|path| {
-            read(path)
-                .or_else(|| read(&path.with_file_name(format!("window-geometry-{label}-v1.txt"))))
-        }),
+        path.as_ref()
+            .and_then(|path| restore_record(path, label, cached.as_deref())),
         default,
         minimum,
     );
-    let writer = path.and_then(|path| match GeometryWriter::new(path) {
-        Ok(writer) => Some(Arc::new(writer)),
-        Err(error) => {
-            eprintln!("cannot start window geometry writer: {error}");
-            None
-        }
-    });
-    if let Some(writer) = &writer {
+    let writer = path.and_then(|path| {
         if app.manage(Writers::default()) {
             let plugin = tauri::plugin::Builder::<tauri::Wry, ()>::new("window-geometry-writer")
                 .on_event(|app, event| match event {
@@ -232,13 +235,16 @@ pub fn install(
             }
         }
         let writers = app.state::<Writers>();
-        let mut entries = writers.0.lock().unwrap();
-        // Finished workers can be dropped without waiting for filesystem I/O.
-        entries.retain(|(_, writer)| !writer.is_finished());
-        entries.push((label.to_owned(), writer.clone()));
-        drop(entries);
-        publish(&window, writer);
-    }
+        match geometry_writer::writer_for_window(&writers.0, label, path) {
+            Ok(writer) => Some(writer),
+            Err(error) => {
+                eprintln!("cannot start window geometry writer: {error}");
+                None
+            }
+        }
+    });
+    // Native size/position restoration may complete asynchronously. Save only
+    // delivered normal-window events, never an immediate post-setter snapshot.
     if show {
         let _ = window.show();
     }
@@ -273,6 +279,43 @@ pub fn install(
 #[cfg(test)]
 mod record_tests {
     use super::*;
+    #[test]
+    fn restore_prefers_pending_normal_cache_then_v2_then_legacy_without_writing() {
+        let dir = std::env::temp_dir().join(format!("placement-compat-{}", std::process::id()));
+        fs::create_dir_all(&dir).unwrap();
+        let v2 = dir.join("window-geometry-main-v2.txt");
+        let v1 = dir.join("window-geometry-main-v1.txt");
+        let legacy = "-500 10 640 480";
+        fs::write(&v1, legacy).unwrap();
+        assert_eq!(
+            restore_record(&v2, "main", None).unwrap().geometry.x,
+            -500.0
+        );
+        fs::write(&v2, "100 20 800 600 1600 1256").unwrap();
+        assert_eq!(restore_record(&v2, "main", None).unwrap().geometry.x, 100.0);
+        assert_eq!(
+            restore_record(&v2, "main", Some("120 30 900 700 1800 1456"))
+                .unwrap()
+                .geometry
+                .x,
+            120.0
+        );
+        assert_eq!(
+            restore_record(&v2, "main", Some("corrupt"))
+                .unwrap()
+                .geometry
+                .x,
+            100.0
+        );
+        fs::write(&v2, "broken record").unwrap();
+        assert_eq!(
+            restore_record(&v2, "main", None).unwrap().geometry.x,
+            -500.0
+        );
+        assert_eq!(fs::read_to_string(&v1).unwrap(), legacy);
+        assert_eq!(fs::read_to_string(&v2).unwrap(), "broken record");
+        fs::remove_dir_all(dir).unwrap();
+    }
     #[test]
     fn reads_legacy_and_physical_records_but_rejects_corruption() {
         let dir = std::env::temp_dir().join(format!("placement-records-{}", std::process::id()));

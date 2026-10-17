@@ -16,6 +16,7 @@ const RETRY: Duration = Duration::from_millis(250);
 #[derive(Default)]
 struct State {
     latest: Option<(u64, String)>,
+    last_published: Option<String>,
     revision: u64,
     completed: u64,
     first: Option<Instant>,
@@ -33,6 +34,41 @@ struct Shared {
 pub struct GeometryWriter {
     shared: Arc<Shared>,
     worker: Option<JoinHandle<()>>,
+}
+/// A label has one stable geometry path within an application. Reuse its writer
+/// while a destroyed window's final write is in flight, so a reopened window
+/// cannot be overwritten later by that older write.
+pub fn writer_for_window(
+    writers: &Mutex<Vec<(String, Arc<GeometryWriter>)>>,
+    label: &str,
+    path: PathBuf,
+) -> io::Result<Arc<GeometryWriter>> {
+    let mut entries = writers.lock().unwrap();
+    entries.retain(|(_, writer)| !writer.is_finished());
+    if let Some((_, writer)) = entries
+        .iter()
+        .rev()
+        .find(|(name, writer)| name == label && writer.resume())
+    {
+        return Ok(writer.clone());
+    }
+    let writer = Arc::new(GeometryWriter::new(path)?);
+    entries.push((label.to_owned(), writer.clone()));
+    Ok(writer)
+}
+/// Restore from the last observed normal geometry when a close-time write has
+/// not reached disk yet. Reading this cache never waits for filesystem I/O.
+pub fn cached_record(
+    writers: &Mutex<Vec<(String, Arc<GeometryWriter>)>>,
+    label: &str,
+) -> Option<String> {
+    writers
+        .lock()
+        .unwrap()
+        .iter()
+        .rev()
+        .find(|(name, _)| name == label)
+        .and_then(|(_, writer)| writer.shared.state.lock().unwrap().last_published.clone())
 }
 impl GeometryWriter {
     pub fn new(path: PathBuf) -> io::Result<Self> {
@@ -110,6 +146,7 @@ impl GeometryWriter {
             return;
         }
         state.revision += 1;
+        state.last_published = Some(contents.clone());
         state.latest = Some((state.revision, contents));
         let now = Instant::now();
         state.first.get_or_insert(now);
@@ -129,6 +166,14 @@ impl GeometryWriter {
     }
     pub fn is_finished(&self) -> bool {
         self.worker.as_ref().map_or(true, JoinHandle::is_finished)
+    }
+    fn resume(&self) -> bool {
+        let mut state = self.shared.state.lock().unwrap();
+        if state.stopped {
+            return false;
+        }
+        state.stopping = false;
+        true
     }
     /// Only use at explicit exit/test boundaries, never on move/resize.
     pub fn flush(&self) -> io::Result<()> {
@@ -269,7 +314,8 @@ mod tests {
             started_tx.send(()).unwrap();
             release_rx.recv().unwrap();
             Ok(())
-        }).unwrap();
+        })
+        .unwrap();
         w.schedule("final normal geometry".into());
         w.flush_soon();
         started_rx.recv_timeout(Duration::from_secs(2)).unwrap();
@@ -284,6 +330,90 @@ mod tests {
         }
         assert!(w.is_finished());
         w.flush().unwrap();
+    }
+    #[test]
+    fn reopened_window_reuses_in_flight_writer_and_keeps_newest_geometry() {
+        let p = path("reopen");
+        let destination = p.clone();
+        let (started_tx, started_rx) = mpsc::channel();
+        let (release_tx, release_rx) = mpsc::channel();
+        let mut first = true;
+        let old = Arc::new(
+            GeometryWriter::with_sink(move |contents| {
+                if first {
+                    first = false;
+                    started_tx.send(()).unwrap();
+                    release_rx.recv().unwrap();
+                }
+                atomic_write(&destination, contents)
+            })
+            .unwrap(),
+        );
+        let registry = Mutex::new(vec![("main".to_owned(), old.clone())]);
+        old.schedule("old window".into());
+        old.flush_soon();
+        started_rx.recv_timeout(Duration::from_secs(2)).unwrap();
+        old.finish_soon();
+        assert_eq!(
+            cached_record(&registry, "main").as_deref(),
+            Some("old window")
+        );
+        let reopened = writer_for_window(&registry, "main", p.clone()).unwrap();
+        let reused = Arc::ptr_eq(&old, &reopened);
+        reopened.schedule("new window".into());
+        assert_eq!(
+            cached_record(&registry, "main").as_deref(),
+            Some("new window")
+        );
+        release_tx.send(()).unwrap();
+        reopened.flush().unwrap();
+        old.flush().unwrap();
+        let actual = fs::read_to_string(&p).unwrap();
+        fs::remove_dir_all(p.parent().unwrap()).unwrap();
+        assert!(
+            reused,
+            "one label must serialize writes across window generations"
+        );
+        assert_eq!(actual, "new window");
+        assert_eq!(registry.lock().unwrap().len(), 1);
+    }
+    #[test]
+    fn reopened_window_replaces_finished_writer() {
+        let p = path("reopen-finished");
+        let registry = Mutex::new(Vec::new());
+        let old = writer_for_window(&registry, "main", p.clone()).unwrap();
+        old.schedule("old".into());
+        old.finish_soon();
+        let deadline = Instant::now() + Duration::from_secs(2);
+        while !old.is_finished() && Instant::now() < deadline {
+            thread::sleep(Duration::from_millis(1));
+        }
+        assert!(old.is_finished());
+        let new = writer_for_window(&registry, "main", p.clone()).unwrap();
+        assert!(!Arc::ptr_eq(&old, &new));
+        new.schedule("new".into());
+        new.flush().unwrap();
+        assert_eq!(fs::read_to_string(&p).unwrap(), "new");
+        assert_eq!(registry.lock().unwrap().len(), 1);
+        fs::remove_dir_all(p.parent().unwrap()).unwrap();
+    }
+    #[test]
+    fn cache_keeps_normal_geometry_for_close_and_other_labels() {
+        let p = path("cache");
+        let registry = Mutex::new(Vec::new());
+        let writer = writer_for_window(&registry, "main", p.clone()).unwrap();
+        writer.schedule("normal geometry".into());
+        writer.flush_soon();
+        writer.flush().unwrap();
+        // Maximize/hide must not publish their non-normal surface. A reopen can
+        // still restore this record after the pending write slot is drained.
+        assert_eq!(
+            cached_record(&registry, "main").as_deref(),
+            Some("normal geometry")
+        );
+        assert!(cached_record(&registry, "other").is_none());
+        assert!(writer.shared.state.lock().unwrap().latest.is_none());
+        fs::remove_dir_all(p.parent().unwrap()).unwrap();
     }
     #[test]
     fn failure_is_reported_and_latest_is_retryable() {
