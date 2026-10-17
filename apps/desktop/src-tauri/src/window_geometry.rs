@@ -28,15 +28,32 @@ impl Geometry {
     }
 }
 
+/// Legacy records lack a source DPI: prefer the monitor containing their physical
+/// origin instead of inventing a different rectangle for each candidate.
 pub fn select_screen(saved: Option<Geometry>, screens: &[Screen]) -> usize {
-    let Some(g) = saved else { return 0 };
+    let Some(g) = saved.filter(|g| g.valid()) else {
+        return 0;
+    };
+    screens
+        .iter()
+        .position(|s| {
+            g.x >= s.area.x
+                && g.y >= s.area.y
+                && g.x < s.area.x + s.area.width
+                && g.y < s.area.y + s.area.height
+        })
+        .unwrap_or(0)
+}
+
+/// Every candidate is compared with the same saved physical outer rectangle.
+pub fn select_screen_physical(rect: Bounds, screens: &[Screen]) -> usize {
     screens
         .iter()
         .enumerate()
         .map(|(i, s)| {
-            let width = (g.x + g.width * s.scale).min(s.area.x + s.area.width) - g.x.max(s.area.x);
+            let width = (rect.x + rect.width).min(s.area.x + s.area.width) - rect.x.max(s.area.x);
             let height =
-                (g.y + g.height * s.scale).min(s.area.y + s.area.height) - g.y.max(s.area.y);
+                (rect.y + rect.height).min(s.area.y + s.area.height) - rect.y.max(s.area.y);
             (i, width.max(0.0) * height.max(0.0))
         })
         .max_by(|a, b| a.1.total_cmp(&b.1).then_with(|| b.0.cmp(&a.0)))
@@ -258,6 +275,70 @@ mod tests {
                 screen(0.0, 1.0),
                 (0.0, 0.0)
             )
+        );
+    }
+}
+
+#[cfg(test)]
+mod physical_overlap_tests {
+    use super::*;
+    #[test]
+    fn mixed_dpi_candidates_use_one_physical_rectangle() {
+        let screens = [
+            Screen {
+                area: Bounds {
+                    x: -1000.0,
+                    y: 0.0,
+                    width: 1000.0,
+                    height: 1000.0,
+                },
+                scale: 1.0,
+            },
+            Screen {
+                area: Bounds {
+                    x: 0.0,
+                    y: 0.0,
+                    width: 2000.0,
+                    height: 2000.0,
+                },
+                scale: 2.0,
+            },
+        ];
+        assert_eq!(
+            select_screen_physical(
+                Bounds {
+                    x: -500.0,
+                    y: 0.0,
+                    width: 600.0,
+                    height: 600.0
+                },
+                &screens
+            ),
+            0
+        );
+        assert_eq!(
+            select_screen_physical(
+                Bounds {
+                    x: -100.0,
+                    y: 0.0,
+                    width: 1200.0,
+                    height: 1200.0
+                },
+                &screens
+            ),
+            1
+        );
+        assert_eq!(
+            select_screen(
+                Some(Geometry {
+                    x: -500.0,
+                    y: 0.0,
+                    width: 600.0,
+                    height: 600.0
+                }),
+                &screens
+            ),
+            0
         );
     }
 }
