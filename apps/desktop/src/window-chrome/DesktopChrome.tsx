@@ -30,8 +30,8 @@ export function DesktopChrome() {
     return () => { window.removeEventListener('project-window-state', read); window.removeEventListener('keydown', key); };
   }, [available]);
   if (!available) return null;
-  return <header className="desktop-titlebar" data-tauri-drag-region aria-label="Atlas 窗口控制">
-    <strong data-tauri-drag-region>Atlas</strong>
+  return <header className="desktop-titlebar" data-project-drag-region aria-label="Atlas 窗口控制">
+    <strong data-project-drag-region>Atlas</strong>
     <NativeEffectsToggle />
     <div className="desktop-window-buttons" data-no-drag>
       <button type="button" aria-label="最小化" title="最小化 (⌘M)" onClick={() => action('minimize')}>−</button>

@@ -14,9 +14,10 @@ class Target {
 class Element extends Target {
   attrs = new Map(); children = []; hidden = false;
   style = { setProperty(key, value) { this[key] = value; }, getPropertyValue(key) { return this[key] || ''; }, getPropertyPriority() { return ''; }, removeProperty(key) { delete this[key]; } };
-  constructor(value, clickable = false) { super(); if (value != null) this.attrs.set('data-tauri-drag-region', value); this.clickable = clickable; }
+  constructor(value, clickable = false) { super(); if (value != null) this.attrs.set('data-project-drag-region', value); this.clickable = clickable; }
   getAttribute(key) { return this.attrs.get(key) ?? null; }
   setAttribute(key, value) { this.attrs.set(key, value); }
+  getClientRects() { return this.hidden ? [] : [{}]; }
   removeAttribute(key) { this.attrs.delete(key); }
   matches() { return this.clickable; }
   appendChild(child) { this.children.push(child); }
@@ -24,7 +25,7 @@ class Element extends Target {
   remove() { this.removed = true; }
 }
 const tick = () => new Promise(resolve => setImmediate(resolve));
-function fixture({ macos = false, decorated = false, resizable = true, maximized = false, fullscreen = false, reject = false } = {}) {
+function fixture({ macos = false, decorated = false, resizable = true, maximized = false, fullscreen = false, reject = false, label = 'main', modal = false } = {}) {
   const win = new Target(), doc = new Target(), calls = [], timers = new Map();
   let timerId = 0;
   const state = { decorated, resizable, maximized, fullscreen, focused: true, maximizable: true };
@@ -34,14 +35,14 @@ function fixture({ macos = false, decorated = false, resizable = true, maximized
     requestAnimationFrame: fn => setImmediate(fn), cancelAnimationFrame: clearImmediate,
     setTimeout: fn => { const id = ++timerId; timers.set(id, fn); return id; },
     clearTimeout: id => timers.delete(id),
-    __TAURI_INTERNALS__: { invoke: async (command, args) => {
-      calls.push({ command: command.split('|')[1], args });
+    __TAURI_INTERNALS__: { metadata: { currentWindow: { label } }, invoke: async (command, args) => {
+      calls.push({ command: command.split('|').at(-1), args });
       if (reject) throw new Error('permission denied');
       if (command.endsWith('|start_resize_dragging') && !args.value) throw new Error('missing required key value');
-      return state[command.split('|')[1].replace('is_', '')];
+      return state[command.split('|').at(-1).replace('is_', '')];
     } }
   });
-  Object.assign(doc, { readyState: 'complete', documentElement: new Element(), createElement: () => new Element() });
+  Object.assign(doc, { readyState: 'complete', documentElement: new Element(), createElement: () => new Element(), querySelectorAll: () => modal ? [new Element()] : [] });
   const controller = install(win, doc, macos);
   function event(type, path, extra = {}) {
     const e = { type, button: 0, detail: 1, pointerType: 'mouse', clientX: 40, clientY: 20, composedPath: () => path,
@@ -98,7 +99,7 @@ test('macOS double click waits for mouseup and cancels when the pointer moves', 
   f.event('mousedown', path, { detail: 2 }); assert.equal(f.actions().length, 0);
   f.event('mouseup', path, { detail: 2, clientX: 42 }); assert.equal(f.actions().length, 0);
   f.event('mousedown', path, { detail: 2 }); f.event('mouseup', path, { detail: 2 });
-  assert.equal(f.actions()[0].command, 'internal_toggle_maximize'); f.controller.destroy();
+  assert.equal(f.actions()[0].command, 'native_titlebar_double_click'); f.controller.destroy();
 });
 test('right clicks, controls, decorated and fullscreen windows preserve application events', async () => {
   for (const options of [{ decorated: true }, { fullscreen: true }, {}]) {
@@ -209,7 +210,7 @@ test('cancelled macOS double-click release cannot maximize or retain a pending g
     assert.equal(f.actions().length, 0);
     f.event('mousedown', path, { detail: 2 });
     f.event('mouseup', path, { detail: 2 });
-    assert.deepEqual(f.actions().map(call => call.command), ['internal_toggle_maximize']);
+    assert.deepEqual(f.actions().map(call => call.command), ['native_titlebar_double_click']);
   } finally { f.controller.destroy(); }
 });
 
@@ -267,6 +268,37 @@ test('file drag/drop events remain available to application handlers', async () 
     }
     assert.equal(f.actions().length, 0);
     f.event('mousedown', [new Element('deep')]);
-    assert.deepEqual(f.actions().map(call => call.command), ['start_dragging']);
+    assert.deepEqual(f.actions().map(call => call.command), ['native_titlebar_drag']);
   } finally { f.controller.destroy(); }
 });
+
+
+test('macOS uses no content resize overlay and delegates double click without requiring zoom capability', async () => {
+  const f=fixture({macos:true,resizable:false}); await tick();
+  f.state.maximizable=false; f.controller.refresh();await tick();await tick();
+  assert.equal(f.doc.documentElement.children.length,0);
+  const path=[new Element('deep')];
+  f.event('mousedown',path,{detail:2});f.event('mouseup',path,{detail:2});
+  assert.deepEqual(f.actions().map(c=>c.command),['native_titlebar_double_click']);f.controller.destroy();
+});
+test('HTML modal and inert root preserve events and block title and resize requests', async () => {
+  for (const options of [{modal:true},{macos:true,modal:true},{}]) {
+    const f=fixture(options);await tick();if(!options.modal)f.doc.documentElement.inert=true;
+    for(const type of ['pointerdown','mousedown','mouseup','dblclick']) {
+      const e=f.event(type,[new Element('deep')],{detail:2});assert.equal(e.stopped,undefined);
+    }
+    for(const edge of f.doc.documentElement.children[0]?.shadow.children||[])edge.dispatchEvent({type:'pointerdown',button:0,preventDefault(){assert.fail('modal resize')},stopImmediatePropagation(){assert.fail('modal resize')}});
+    assert.equal(f.actions().length,0);f.controller.destroy();
+  }
+});
+test('legacy Tauri markers are not app title regions', () => {
+  const legacy=new Element();legacy.setAttribute('data-tauri-drag-region','deep');
+  assert.equal(dragRegion([legacy]),false);
+});
+test('unregistered document labels do not install application chrome', () => {
+  for(const label of ['', 'settings','test-window-','test-window-other']) {
+    const f=fixture({label});assert.equal(f.controller,undefined);assert.equal(f.calls.length,0);
+  }
+});
+
+test('HardAtlas excludes all child test labels',()=>{const f=fixture({label:'test-window-23'});assert.equal(f.controller,undefined);assert.equal(f.calls.length,0);});

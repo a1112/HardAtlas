@@ -4,6 +4,9 @@ mod effects;
 mod effects_policy;
 mod platform;
 mod window_controls;
+mod titlebar;
+mod titlebar_policy;
+mod titlebar_session;
 mod project_window_chrome;
 #[cfg(not(mobile))]
 mod window_geometry;
@@ -247,19 +250,22 @@ fn start_safe_scan() -> String {
 pub fn run() {
     let builder = tauri::Builder::default().plugin(project_window_chrome::init());
     #[cfg(desktop)]
-    let builder = builder.manage(effects::EffectsState::default());
+    let builder = builder.manage(effects::EffectsState::default()).manage(titlebar::TitlebarState::default());
     builder.setup(|app| {
             #[cfg(desktop)]
             {
                 effects::observe_preferences(app.handle());
                 if let Some(window) = app.get_webview_window("main") {
                     platform::configure_window(&window);
+                    titlebar::register_configured(&window)?;
                 }
                 window_placement::install(app, "main", (1100.0, 740.0), (820.0, 560.0), true);
             }
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            titlebar::native_titlebar_double_click,
+            titlebar::native_titlebar_drag,
             window_controls::window_chrome_available,
             window_controls::native_effects_status,
             window_controls::set_native_effects_enabled,

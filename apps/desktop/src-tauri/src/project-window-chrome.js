@@ -10,7 +10,8 @@
       if (typeof element?.getAttribute !== 'function') continue;
       // An interactive ancestor must win over a marked passive child too.
       if (element.matches(interactive)) return false;
-      const value = element.getAttribute('data-tauri-drag-region');
+      // Exclusive app marker: Tauri's built-in drag.js must not handle a rejected gesture.
+      const value = element.getAttribute('data-project-drag-region');
       if (value === 'false') return false;
       if (!found && ['deep', '', 'true'].includes(value)) {
         region = value === 'deep' || element === path[0];
@@ -32,6 +33,8 @@
     if (win !== win.top || !win.__TAURI_INTERNALS__?.invoke || win.__projectWindowChrome) return;
     if (!/^(tauri:|https?:)$/.test(win.location.protocol)) return;
     if (win.location.protocol !== 'tauri:' && !['tauri.localhost', 'localhost', '127.0.0.1', '[::1]'].includes(win.location.hostname)) return;
+    const label = win.__TAURI_INTERNALS__.metadata?.currentWindow?.label;
+    if (label !== 'main') return;
     const invoke = (command, args = {}) => win.__TAURI_INTERNALS__.invoke('plugin:window|' + command, args);
     let state = null;
     let disposed = false;
@@ -54,6 +57,7 @@
       if (!disposed) win.dispatchEvent(new win.CustomEvent('project-window-error', { detail: String(error) }));
     };
     const run = (command, args) => invoke(command, args).then(schedule, report);
+    const nativeGesture = command => win.__TAURI_INTERNALS__.invoke(command).then(schedule, report);
     function listen(target, name, handler, capture = false) {
       target.addEventListener(name, handler, capture);
       removers.push(() => target.removeEventListener(name, handler, capture));
@@ -97,8 +101,13 @@
       event.preventDefault();
       event.stopImmediatePropagation();
     }
+    function modalBlocked() {
+      return Boolean(doc.documentElement.inert || doc.body?.inert ||
+        [...doc.querySelectorAll('dialog[open], [aria-modal="true"]')].some(element =>
+          !element.hidden && element.getClientRects().length > 0));
+    }
     function handles(event) {
-      return !event.defaultPrevented && state && !state.decorated && !state.fullscreen && event.button === 0 && dragRegion(event.composedPath());
+      return !event.defaultPrevented && state && !state.decorated && !state.fullscreen && !modalBlocked() && event.button === 0 && dragRegion(event.composedPath());
     }
     // Cancel custom pointer handlers; mousedown below owns the native operation.
     // Do not preventDefault here: that would suppress the compatibility mousedown.
@@ -110,12 +119,12 @@
       if (!handles(event)) return;
       consume(event);
       if (event.detail === 2) {
-        if (!state.resizable || !state.maximizable) return;
         if (macos) doubleClick = { x: event.clientX, y: event.clientY };
-        else void run('internal_toggle_maximize');
+        else if (state.resizable && state.maximizable) void run('internal_toggle_maximize');
       } else if (event.detail === 1) {
         doubleClick = null;
-        void run('start_dragging');
+        if (macos) void nativeGesture('native_titlebar_drag');
+        else void run('start_dragging');
       }
     }, true);
     listen(win, 'mouseup', event => {
@@ -123,8 +132,8 @@
       doubleClick = null;
       if (!handles(event)) return;
       consume(event);
-      if (macos && initial && initial.x === event.clientX && initial.y === event.clientY && state.resizable && state.maximizable) {
-        void run('internal_toggle_maximize');
+      if (macos && initial && initial.x === event.clientX && initial.y === event.clientY) {
+        void nativeGesture('native_titlebar_double_click');
       }
     }, true);
     listen(win, 'dblclick', event => { if (handles(event)) consume(event); }, true);
@@ -147,6 +156,8 @@
 
     function mount() {
       if (disposed || edges) return;
+      // AppKit owns the native Resizable perimeter. No web-content resize overlay.
+      if (macos) { void refresh(); return; }
       edges = doc.createElement('div');
       edges.id = 'project-window-resize-edges';
       for (const [key, value] of Object.entries({ position: 'fixed', inset: '0', 'pointer-events': 'none', 'z-index': '2147483646', display: 'none' })) edges.style.setProperty(key, value, 'important');
@@ -166,7 +177,7 @@
           Object.assign(edge.style, { top: '10px', bottom: '10px', width: '4px', cursor: 'ew-resize', [name === 'w' ? 'left' : 'right']: '0' });
         }
         listen(edge, 'pointerdown', event => {
-          if (event.defaultPrevented || event.button !== 0 || !canResize(state)) return;
+          if (event.defaultPrevented || event.button !== 0 || modalBlocked() || !canResize(state)) return;
           consume(event);
           void run('start_resize_dragging', { value: direction });
         });
