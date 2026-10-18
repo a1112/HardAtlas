@@ -16,6 +16,7 @@ import {
 } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles.css";
+import { DesktopChrome } from "./window-chrome/DesktopChrome";
 
 interface BuildInfo {
   buildSha: string;
@@ -318,7 +319,7 @@ function App() {
   }
 
   return (
-    <main className="reader-shell">
+    <><DesktopChrome /><main className="reader-shell">
       <aside>
         <div className="brand">
           A <span>ATLAS</span>
@@ -544,7 +545,7 @@ function App() {
           </div>
         )}
       </section>
-    </main>
+    </main></>
   );
 }
 

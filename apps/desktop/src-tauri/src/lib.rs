@@ -1,3 +1,10 @@
+#[cfg(desktop)]
+mod effects;
+#[cfg(desktop)]
+mod effects_policy;
+mod platform;
+mod window_controls;
+mod project_window_chrome;
 #[cfg(not(mobile))]
 mod window_geometry;
 #[cfg(not(mobile))]
@@ -238,13 +245,26 @@ fn start_safe_scan() -> String {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default()
-        .setup(|app| {
-            #[cfg(not(mobile))]
-            window_placement::install(app, "main", (1100.0, 740.0), (820.0, 560.0), true);
+    let builder = tauri::Builder::default().plugin(project_window_chrome::init());
+    #[cfg(desktop)]
+    let builder = builder.manage(effects::EffectsState::default());
+    builder.setup(|app| {
+            #[cfg(desktop)]
+            {
+                effects::observe_preferences(app.handle());
+                if let Some(window) = app.get_webview_window("main") {
+                    platform::configure_window(&window);
+                }
+                window_placement::install(app, "main", (1100.0, 740.0), (820.0, 560.0), true);
+            }
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            window_controls::window_chrome_available,
+            window_controls::native_effects_status,
+            window_controls::set_native_effects_enabled,
+            window_controls::refresh_native_effects,
+            window_controls::desktop_window_action,
             desktop_status,
             cache_entity,
             list_cached_entities,

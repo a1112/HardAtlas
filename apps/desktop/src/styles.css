@@ -464,3 +464,28 @@ nav button.active {
     grid-template-columns: 200px minmax(0, 1fr);
   }
 }
+
+/* Native desktop chrome: one OS material, no CSS desktop-blur simulation. */
+html.atlas-desktop { --atlas-window-radius: var(--project-window-radius, 10px); }
+html.atlas-desktop, html.atlas-desktop body, html.atlas-desktop #root {
+  height: 100%; overflow: hidden; border-radius: var(--atlas-window-radius); background: #f5f7f3;
+}
+html.atlas-desktop #root { display: flex; flex-direction: column; }
+html.atlas-desktop .reader-shell { flex: 1; min-height: 0; overflow: auto; }
+html.atlas-desktop .reader-shell > aside { min-height: 100%; }
+.desktop-titlebar { flex: 0 0 auto; min-height: 44px; display: flex; align-items: center; gap: 12px; padding: 6px 12px; background: #e5ede7; color: #17231f; border-bottom: 1px solid #ced9d0; user-select: none; }
+.desktop-titlebar strong { flex: 1; min-width: 44px; }
+.desktop-window-buttons { display: flex; gap: 4px; flex-shrink: 0; }
+.desktop-titlebar button { min-width: 32px; min-height: 30px; padding: 4px 8px; border: 1px solid #abbdb1; border-radius: 5px; color: inherit; background: #f5f7f3; }
+.desktop-titlebar button:focus-visible { outline: 3px solid #145c46; outline-offset: 2px; }
+.native-effects-control { display: inline-flex; align-items: center; gap: 6px; }
+.native-effects-status { font-size: 11px; max-width: 150px; }
+html.atlas-desktop.has-native-backdrop, html.atlas-desktop.has-native-backdrop body, html.atlas-desktop.has-native-backdrop #root { background: transparent; }
+html.atlas-desktop.has-native-backdrop .desktop-titlebar { background: rgba(229,237,231,.76); }
+html.atlas-desktop.has-native-backdrop .reader-shell > aside { background: rgba(21,58,50,.88); }
+html.atlas-desktop .reader-content { background: #f5f7f3; }
+html.native-high-contrast .desktop-titlebar, html.native-high-contrast .desktop-titlebar button { background: Canvas; color: CanvasText; border-color: CanvasText; }
+@media (forced-colors: active), (prefers-contrast: more) {
+  .desktop-titlebar, .desktop-titlebar button { background: Canvas !important; color: CanvasText; border-color: CanvasText; }
+}
+@media (max-width: 940px) { .native-effects-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); } }

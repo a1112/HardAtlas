@@ -7,7 +7,9 @@
     "tauri": "tauri",
     "build": "vite build",
     "check": "tsc --noEmit",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "test:window-chrome": "node --test tests/desktop-chrome.node.mjs src-tauri/src/project-window-chrome.test.cjs",
+    "test:native-effects": "python3 tests/test-effects-controller.py"
   },
   "dependencies": {
     "@hardatlas/contracts": "workspace:*",

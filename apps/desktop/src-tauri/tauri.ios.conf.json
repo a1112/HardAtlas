@@ -7,7 +7,9 @@
         "height": 960,
         "minWidth": 1024,
         "minHeight": 720,
-        "visible": true
+        "visible": true,
+        "decorations": true,
+        "transparent": false
       }
     ]
   }

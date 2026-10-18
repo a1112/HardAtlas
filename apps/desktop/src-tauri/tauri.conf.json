@@ -19,12 +19,18 @@
         "minHeight": 560,
         "maximized": false,
         "fullscreen": false,
-        "visible": false
+        "visible": false,
+        "label": "main",
+        "decorations": false,
+        "resizable": true,
+        "transparent": true,
+        "shadow": true
       }
     ],
     "security": {
       "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ipc: http://ipc.localhost http://localhost:8000 http://127.0.0.1:8000"
-    }
+    },
+    "macOSPrivateApi": true
   },
   "bundle": {
     "active": false
