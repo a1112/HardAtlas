@@ -112,6 +112,7 @@
     // Cancel custom pointer handlers; mousedown below owns the native operation.
     // Do not preventDefault here: that would suppress the compatibility mousedown.
     listen(win, 'pointerdown', event => {
+      doubleClick = null; // A new pointer stream retires the previous click.
       if (handles(event) && event.pointerType === 'mouse') event.stopImmediatePropagation();
     }, true);
     listen(win, 'mousedown', event => {

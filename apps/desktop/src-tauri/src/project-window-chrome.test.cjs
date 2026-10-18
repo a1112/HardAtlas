@@ -302,3 +302,22 @@ test('unregistered document labels do not install application chrome', () => {
 });
 
 test('HardAtlas excludes all child test labels',()=>{const f=fixture({label:'test-window-23'});assert.equal(f.controller,undefined);assert.equal(f.calls.length,0);});
+
+test('new pointer stream retires a pending macOS click before cancellation checks', async () => {
+  // Conditional synthetic pointer traces; no native reachability/timing claim.
+  for (const pointerType of ['mouse', 'pen', 'touch']) {
+    const f = fixture({ macos: true }); await tick();
+    try {
+      const path = [new Element('deep')];
+      f.event('mousedown', path, { detail: 2 });
+      const next = f.event('pointerdown', path, { pointerType, defaultPrevented: true });
+      assert.equal(next.stopped, undefined);
+      f.event('mouseup', path, { detail: 1 });
+      assert.equal(f.actions().length, 0, pointerType);
+      f.event('pointerdown', path, { pointerType: 'mouse' });
+      f.event('mousedown', path, { detail: 2 });
+      f.event('mouseup', path, { detail: 2 });
+      assert.deepEqual(f.actions().map(c => c.command), ['native_titlebar_double_click']);
+    } finally { f.controller.destroy(); }
+  }
+});
